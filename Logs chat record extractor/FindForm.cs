@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Logs_chat_record_extractor
@@ -31,23 +25,53 @@ namespace Logs_chat_record_extractor
         /// </summary>
         private bool _seekAgain;
 
+        /// <summary>
+        /// 上次搜索的内容
+        /// </summary>
+        private static string _lastFindText = "";
 
-        public FindForm(string selectedText)
+        /// <summary>
+        /// 富文本框对象
+        /// </summary>
+        private readonly RichTextBox _richTextBox;
+
+        /// <summary>
+        /// 含参的构造函数
+        /// </summary>
+        /// <param name="richTextBox">富文本框</param>
+        public FindForm(RichTextBox richTextBox)
         {
             InitializeComponent();
+
+            // 传入对象
+            _richTextBox = richTextBox;
+
+            // 注册关闭事件
+            FormClosed += FindForm_Closed;
+
+            // 先把按钮状态设置一下
             checkBox1.Checked = _isMatchCase;
             checkBox2.Checked = _isCycle;
             radioButton1.Checked = _direction;
             radioButton2.Checked = !_direction;
+
             string clipboardText;
-            if (Clipboard.ContainsText(TextDataFormat.Text) &&
-                (clipboardText = Clipboard.GetText(TextDataFormat.Text)).Length < 8)
+
+            // 三个优先级，最优先填充选择内容，其次上次搜索内容，最后剪切板内容
+            // 都没有就把按钮禁掉
+            if (!"".Equals(richTextBox.SelectedText))
+            {
+                textBox1.Text = richTextBox.SelectedText;
+            }
+            else if (!"".Equals(_lastFindText))
+            {
+                textBox1.Text = _lastFindText;
+            }
+            // 当剪切板里面的东西太长的时候，大概是复制到了奇怪的东西，就不填进去了
+            else if (Clipboard.ContainsText(TextDataFormat.Text) &&
+                     (clipboardText = Clipboard.GetText(TextDataFormat.Text)).Length < 10)
             {
                 textBox1.Text = clipboardText;
-            }
-            else if (!"".Equals(selectedText))
-            {
-                textBox1.Text = selectedText;
             }
             else
             {
@@ -55,60 +79,92 @@ namespace Logs_chat_record_extractor
             }
         }
 
+        /// <summary>
+        /// 匹配大小写选择框 状态变更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             _isMatchCase = checkBox1.Checked;
         }
 
+        /// <summary>
+        /// 循环选择框 状态变更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             _isCycle = checkBox2.Checked;
         }
 
+        /// <summary>
+        /// 搜索文本框 文本变更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             button1.Enabled = !"".Equals(textBox1.Text);
         }
 
+        /// <summary>
+        /// 取消按钮 点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            Dispose();
+            Close();
         }
 
+        /// <summary>
+        /// 查找按钮 点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            var mainForm = (MainForm) Owner;
-            var rbox = mainForm.MainFormRichTextBox;
-            var str = textBox1.Text;
-            MyFind(rbox, str);
+            MyFind(textBox1.Text);
         }
 
+        /// <summary>
+        /// 向上单选按钮 状态变更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            _direction = true;
+            _direction = radioButton1.Checked;
         }
 
+        /// <summary>
+        /// 向下单选按钮 状态变更
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            _direction = false;
+            _direction = !radioButton2.Checked;
         }
 
         /// <summary>
         /// 查找
         /// </summary>
-        /// <param name="rbox">richbox对象</param>
         /// <param name="str">查找的内容</param>
-        private void MyFind(RichTextBox rbox, string str)
+        private void MyFind(string str)
         {
             // 获取光标位置
-            var rboxL = rbox.SelectionStart;
-            var downStart = rbox.SelectionStart + rbox.SelectionLength;
+            var rboxL = _richTextBox.SelectionStart;
+            // 从上往下搜索需要以选中内容的结尾作为开始，不然会一直搜索到同一个内容
+            var downStart = _richTextBox.SelectionStart + _richTextBox.SelectionLength;
             // 使用自带方法进行查找
-            // 这是一个带有超多三元运算的神奇语句
+            // 这是一个带有数个三元运算的神奇语句
             // 其实并不是很难读懂嘛
-            var index = rbox.Find(str,
+            var index = _richTextBox.Find(str,
                 _direction ? 0 : downStart,
-                _direction ? rboxL : rbox.MaxLength,
+                _direction ? rboxL : _richTextBox.MaxLength,
                 (_direction ? RichTextBoxFinds.Reverse : RichTextBoxFinds.None) |
                 (_isMatchCase ? RichTextBoxFinds.MatchCase : RichTextBoxFinds.None)
             );
@@ -116,23 +172,35 @@ namespace Logs_chat_record_extractor
             // 找到内容，给予焦点，并将二次寻找标志符设为false
             if (index > -1)
             {
-                rbox.Focus();
+                _richTextBox.Focus();
                 _seekAgain = false;
             }
             // 如果开启循环并且没有搜索到需要的内容，就把指针根据方向设置挪到头或尾
+            // 然后将二次寻找标志符设置为true，递归一次
             else if (_isCycle && !_seekAgain)
             {
-                rbox.SelectionStart = _direction ? rbox.MaxLength : 0;
+                _richTextBox.SelectionStart = _direction ? _richTextBox.MaxLength : 0;
                 // 将二次寻找标志符设置为true防止发生无限递归
                 _seekAgain = true;
-                MyFind(rbox, str);
+                MyFind(str);
             }
             // 没有找到内容，发出提示，将二次寻找标志符设为false
             else
             {
-                MessageBox.Show($"找不到 \"{str}\"", "ACT聊天记录加载器");
+                MessageBox.Show($"找不到 \"{str}\"", "加载器", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 _seekAgain = false;
             }
+        }
+
+        /// <summary>
+        /// 窗体关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FindForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            // 把搜索框里面的东西存一下
+            _lastFindText = textBox1.Text;
         }
     }
 }
