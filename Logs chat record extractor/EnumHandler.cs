@@ -5,7 +5,7 @@ namespace Logs_chat_record_extractor
     public static class EnumHandler
     {
         public static readonly bool[] IsChecked = new bool[GetEnumCount() - 1];
-        
+
         public static int GetEnumCount()
         {
             return (int) ChatType.End;

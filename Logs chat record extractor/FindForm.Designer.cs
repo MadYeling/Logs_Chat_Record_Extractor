@@ -158,7 +158,7 @@ namespace Logs_chat_record_extractor
             this.Name = "FindForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " 查找";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

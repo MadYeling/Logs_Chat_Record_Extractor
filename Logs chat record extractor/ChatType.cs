@@ -40,8 +40,9 @@
         /// <summary>
         /// 悄悄话
         /// </summary>
-        TellToMe, TellToOther,
-        
+        TellToMe,
+        TellToOther,
+
         /// <summary>
         /// 情感动作、表情等
         /// </summary>
@@ -75,12 +76,11 @@
         /// 新频
         /// </summary>
         Beginner,
-        
-        
+
+
         /// <summary>
         /// 用于计数的END枚举
         /// </summary>
         End
-        
     }
 }

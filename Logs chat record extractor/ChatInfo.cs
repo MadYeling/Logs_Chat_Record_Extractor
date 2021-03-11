@@ -17,7 +17,6 @@ namespace Logs_chat_record_extractor
 
         public ChatInfo()
         {
-
         }
     }
 }

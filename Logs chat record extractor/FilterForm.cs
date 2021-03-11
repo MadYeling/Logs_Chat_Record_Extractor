@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Logs_chat_record_extractor
@@ -15,7 +8,7 @@ namespace Logs_chat_record_extractor
     {
         private readonly CheckBox[] _checkBoxArr = new CheckBox[EnumHandler.GetEnumCount() - 1];
 
-        public MainForm MainForm { get; set; }
+        private MainForm MainForm { get; set; }
 
         public ArrayList ChatsBeanList { get; set; }
 
@@ -26,6 +19,7 @@ namespace Logs_chat_record_extractor
 
         private void FilterForm_Load(object sender, EventArgs e)
         {
+            MainForm = (MainForm) Owner;
             for (var i = 0; i < _checkBoxArr.Length; i++)
             {
                 var useI = i;

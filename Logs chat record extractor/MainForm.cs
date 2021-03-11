@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Drawing;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Logs_chat_record_extractor
@@ -10,18 +7,11 @@ namespace Logs_chat_record_extractor
     public partial class MainForm : Form
     {
         public ArrayList ChatsBeanList { get; set; }
-        public FormOpen Form1 { get; set; }
 
         private FilterForm FilterForm { get; set; }
 
         private bool _showTime = true;
         private bool _showHead;
-
-        public RichTextBox MainFormRichTextBox
-        {
-            get => this.richTextBox1;
-            set => this.richTextBox1 = value;
-        }
 
         public string MyTitle { get; set; }
 
@@ -81,7 +71,7 @@ namespace Logs_chat_record_extractor
         /// <param name="e"></param>
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Form1.Show();
+            Owner.Show();
         }
 
         /// <summary>
@@ -93,10 +83,10 @@ namespace Logs_chat_record_extractor
         {
             if (FilterForm == null)
             {
-                FilterForm = new FilterForm {MainForm = this, ChatsBeanList = ChatsBeanList};
+                FilterForm = new FilterForm {ChatsBeanList = ChatsBeanList};
             }
 
-            FilterForm.Show();
+            FilterForm.Show(this);
         }
 
         /// <summary>
@@ -126,16 +116,14 @@ namespace Logs_chat_record_extractor
         private void mainForm_KeyDown(object sender, KeyEventArgs e)
         {
             // 组合键
-            if (e.KeyCode == Keys.F && e.Modifiers == Keys.Control) //Ctrl+F1
-            {
-                var findForm = new FindForm(richTextBox1.SelectedText);
-                findForm.Show(this);
-            }
+            if (e.KeyCode != Keys.F || e.Modifiers != Keys.Control) return;
+            var findForm = new FindForm(richTextBox1);
+            findForm.Show(this);
         }
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var findForm = new FindForm(richTextBox1.SelectedText);
+            var findForm = new FindForm(richTextBox1);
             findForm.Show(this);
         }
     }

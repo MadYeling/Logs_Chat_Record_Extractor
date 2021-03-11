@@ -43,13 +43,13 @@ namespace Logs_chat_record_extractor
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(445, 212);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(440, 214);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(301, 233);
+            this.button1.Location = new System.Drawing.Point(296, 232);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -60,7 +60,7 @@ namespace Logs_chat_record_extractor
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(382, 233);
+            this.button2.Location = new System.Drawing.Point(377, 232);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -71,7 +71,7 @@ namespace Logs_chat_record_extractor
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(13, 233);
+            this.button3.Location = new System.Drawing.Point(12, 232);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 3;
@@ -82,7 +82,7 @@ namespace Logs_chat_record_extractor
             // button4
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button4.Location = new System.Drawing.Point(94, 233);
+            this.button4.Location = new System.Drawing.Point(93, 232);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 4;
@@ -94,7 +94,7 @@ namespace Logs_chat_record_extractor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(465, 257);
+            this.ClientSize = new System.Drawing.Size(464, 261);
             this.ControlBox = false;
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);

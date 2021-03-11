@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
-using System.Text;
-using System.Threading;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Logs_chat_record_extractor
@@ -58,6 +57,7 @@ namespace Logs_chat_record_extractor
                 MessageBox.Show("请输入正确的文件目录");
                 return;
             }
+
             label1.Text = "读取文件中，请稍候...";
             Application.DoEvents();
             // 将原先的list清理掉
@@ -76,12 +76,12 @@ namespace Logs_chat_record_extractor
                 }
             }
 
-            Mf = new MainForm {Form1 = this, ChatsBeanList = ChatsBeanList, MyTitle = _mainFormTitle};
-            Mf.Show();
+            Mf = new MainForm {ChatsBeanList = ChatsBeanList, MyTitle = _mainFormTitle};
+            Mf.Show(this);
             Hide();
             label1.Text = "就绪";
         }
-        
+
         /// <summary>
         /// 初始化过滤器
         /// </summary>
