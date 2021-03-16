@@ -105,6 +105,7 @@ namespace Logs_chat_record_extractor
                 case ChatType.Shout:
                     return PlayerName + " : ";
                 case ChatType.Party:
+                case ChatType.Alliance:
                     return "(" + PlayerName + ") ";
                 case ChatType.TellToOther:
                     return ">>" + PlayerName + " : ";
@@ -112,8 +113,6 @@ namespace Logs_chat_record_extractor
                     return PlayerName + ">>";
                 case ChatType.Motion:
                     return "";
-                case ChatType.Alliance:
-                    return PlayerName;
                 case ChatType.PvpTeam:
                     return PlayerName;
                 case ChatType.FreeCompany:

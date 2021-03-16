@@ -11,11 +11,9 @@ namespace Logs_chat_record_extractor
     {
         private OpenFileDialog _openFileDialog1;
 
-        private MainForm Mf { get; set; }
-
-        private ArrayList ChatsBeanList { get; }
-
-        private static Hashtable ChatInfoMap { get; set; }
+        private MainForm _mf;
+        private readonly ArrayList _chatsBeanList;
+        private static Hashtable _chatInfoMap;
 
         private string _mainFormTitle;
 
@@ -24,7 +22,7 @@ namespace Logs_chat_record_extractor
             InitializeComponent();
             InitChecked();
             LoadChatTable();
-            ChatsBeanList = new ArrayList();
+            _chatsBeanList = new ArrayList();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -61,7 +59,7 @@ namespace Logs_chat_record_extractor
             label1.Text = "读取文件中，请稍候...";
             Application.DoEvents();
             // 将原先的list清理掉
-            ChatsBeanList.Clear();
+            _chatsBeanList.Clear();
             using (var sr = new StreamReader(filePath))
             {
                 string line;
@@ -71,13 +69,13 @@ namespace Logs_chat_record_extractor
                     if (IsAChatMessage(line))
                     {
                         // 装载内容
-                        ChatsBeanList.Add(LoadingSb(CheckType(line), line));
+                        _chatsBeanList.Add(LoadingSb(CheckType(line), line));
                     }
                 }
             }
 
-            Mf = new MainForm {ChatsBeanList = ChatsBeanList, MyTitle = _mainFormTitle};
-            Mf.Show(this);
+            _mf = new MainForm {ChatsBeanList = _chatsBeanList, MyTitle = _mainFormTitle};
+            _mf.Show(this);
             Hide();
             label1.Text = "就绪";
         }
@@ -95,8 +93,10 @@ namespace Logs_chat_record_extractor
                     useI++;
                 }
 
-                if (useI == (int) ChatType.Party || useI == (int) ChatType.Speak || useI == (int) ChatType.Yell ||
-                    useI == (int) ChatType.Shout || useI == (int) ChatType.Motion || useI == (int) ChatType.TellToOther)
+                if (useI == (int) ChatType.Party || useI == (int) ChatType.Speak ||
+                    useI == (int) ChatType.Yell || useI == (int) ChatType.Alliance ||
+                    useI == (int) ChatType.Shout || useI == (int) ChatType.Motion ||
+                    useI == (int) ChatType.TellToOther)
                 {
                     EnumHandler.IsChecked[i] = true;
                 }
@@ -112,7 +112,7 @@ namespace Logs_chat_record_extractor
         {
             var isMeg = false;
             // 通过遍历来判断，避免每次新增一个聊天类型就要改一次
-            foreach (var chatInfo in ChatInfoMap.Values)
+            foreach (var chatInfo in _chatInfoMap.Values)
             {
                 isMeg |= line.Contains(((ChatInfo) chatInfo).ChatCode);
                 if (isMeg)
@@ -132,7 +132,7 @@ namespace Logs_chat_record_extractor
         private static ChatType CheckType(string line)
         {
             var witchChatType = ChatType.Party;
-            foreach (var chatInfo in ChatInfoMap.Values)
+            foreach (var chatInfo in _chatInfoMap.Values)
             {
                 if (line.Contains(((ChatInfo) chatInfo).ChatCode))
                 {
@@ -157,7 +157,9 @@ namespace Logs_chat_record_extractor
                 .Replace("", "⑤").Replace("", "⑥")
                 .Replace("", "⑦").Replace("", "⑧")
                 // 替换物品乱码
-                .Replace("", "");
+                .Replace("", "")
+                // 替换团本乱码
+                .Replace("", "Ⓐ").Replace("", "Ⓑ");
             var sp = line.Split('|');
             var time = sp[1].Substring(11, 5);
             var useI = chatType;
@@ -169,7 +171,7 @@ namespace Logs_chat_record_extractor
             var chatsBean = new ChatsBean
             {
                 Show = EnumHandler.IsChecked[(int) useI],
-                ChatInfo = (ChatInfo) ChatInfoMap[chatType],
+                ChatInfo = (ChatInfo) _chatInfoMap[chatType],
                 Time = time,
                 PlayerName = sp[3],
                 Context = sp[4]
@@ -182,9 +184,9 @@ namespace Logs_chat_record_extractor
         /// </summary>
         private static void LoadChatTable()
         {
-            if (ChatInfoMap == null || ChatInfoMap.Count == 0)
+            if (_chatInfoMap == null || _chatInfoMap.Count == 0)
             {
-                ChatInfoMap = new Hashtable
+                _chatInfoMap = new Hashtable
                 {
                     {
                         ChatType.Speak,
@@ -225,6 +227,10 @@ namespace Logs_chat_record_extractor
                     {
                         ChatType.FreeCompany,
                         new ChatInfo(ChatType.FreeCompany, Color.FromArgb(134, 171, 178), "+08:00|0018|")
+                    },
+                    {
+                        ChatType.Alliance,
+                        new ChatInfo(ChatType.Alliance, Color.FromArgb(178, 89, 0), "+08:00|000f|")
                     }
                 };
             }

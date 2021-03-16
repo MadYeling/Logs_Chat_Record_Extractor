@@ -6,14 +6,13 @@ namespace Logs_chat_record_extractor
 {
     public partial class MainForm : Form
     {
-        public ArrayList ChatsBeanList { get; set; }
+        public ArrayList ChatsBeanList;
 
-        private FilterForm FilterForm { get; set; }
-
+        private FilterForm _filterForm;
         private bool _showTime = true;
         private bool _showHead;
 
-        public string MyTitle { get; set; }
+        public string MyTitle;
 
         public MainForm()
         {
@@ -81,12 +80,12 @@ namespace Logs_chat_record_extractor
         /// <param name="e"></param>
         private void filterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FilterForm == null)
+            if (_filterForm == null)
             {
-                FilterForm = new FilterForm {ChatsBeanList = ChatsBeanList};
+                _filterForm = new FilterForm {ChatsBeanList = ChatsBeanList};
             }
 
-            FilterForm.Show(this);
+            _filterForm.Show(this);
         }
 
         /// <summary>

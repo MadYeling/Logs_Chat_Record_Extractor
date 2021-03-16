@@ -33,7 +33,7 @@ namespace Logs_chat_record_extractor
                 _checkBoxArr[i].Checked = EnumHandler.IsChecked[i];
 
                 // 这些还没有做完嘤嘤嘤，先锁上
-                if (useI == (int) ChatType.Alliance || useI == (int) ChatType.Beginner ||
+                if (useI == (int) ChatType.Beginner ||
                     useI == (int) ChatType.PvpTeam || useI == (int) ChatType.LinkShell1 ||
                     useI == (int) ChatType.LinkShell2 || useI == (int) ChatType.LinkShell3 ||
                     useI == (int) ChatType.LinkShell4 || useI == (int) ChatType.LinkShell5 ||
