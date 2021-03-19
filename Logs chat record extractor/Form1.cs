@@ -159,7 +159,8 @@ namespace Logs_chat_record_extractor
                 // 替换物品乱码
                 .Replace("", "")
                 // 替换团本乱码
-                .Replace("", "Ⓐ").Replace("", "Ⓑ");
+                .Replace("", "Ⓐ").Replace("", "Ⓑ")
+                .Replace("","Ⓒ");
             var sp = line.Split('|');
             var time = sp[1].Substring(11, 5);
             var useI = chatType;
