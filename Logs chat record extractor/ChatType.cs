@@ -47,6 +47,11 @@
         /// 情感动作、表情等
         /// </summary>
         Motion,
+        
+        /// <summary>
+        /// 新频
+        /// </summary>
+        Beginner,
 
         /// <summary>
         /// 通讯贝
@@ -71,12 +76,6 @@
         CwLinkShell6,
         CwLinkShell7,
         CwLinkShell8,
-
-        /// <summary>
-        /// 新频
-        /// </summary>
-        Beginner,
-
 
         /// <summary>
         /// 用于计数的END枚举

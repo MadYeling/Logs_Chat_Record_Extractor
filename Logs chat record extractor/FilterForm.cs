@@ -20,32 +20,44 @@ namespace Logs_chat_record_extractor
         private void FilterForm_Load(object sender, EventArgs e)
         {
             MainForm = (MainForm) Owner;
+
             for (var i = 0; i < _checkBoxArr.Length; i++)
             {
                 var useI = i;
+
                 if (i >= (int) ChatType.TellToMe)
                 {
                     useI++;
                 }
 
-                _checkBoxArr[i] = new CheckBox {Text = EnumHandler.GetNameFromEnum((ChatType) useI)};
-                flowLayoutPanel1.Controls.Add(_checkBoxArr[i]);
+                LoadCheckBox(i);
                 _checkBoxArr[i].Checked = EnumHandler.IsChecked[i];
-
                 // 这些还没有做完嘤嘤嘤，先锁上
-                if (useI == (int) ChatType.Beginner ||
-                    useI == (int) ChatType.PvpTeam || useI == (int) ChatType.LinkShell1 ||
-                    useI == (int) ChatType.LinkShell2 || useI == (int) ChatType.LinkShell3 ||
-                    useI == (int) ChatType.LinkShell4 || useI == (int) ChatType.LinkShell5 ||
-                    useI == (int) ChatType.LinkShell6 || useI == (int) ChatType.LinkShell7 ||
-                    useI == (int) ChatType.LinkShell8 || useI == (int) ChatType.CwLinkShell2 ||
-                    useI == (int) ChatType.CwLinkShell3 || useI == (int) ChatType.CwLinkShell4 ||
-                    useI == (int) ChatType.CwLinkShell5 || useI == (int) ChatType.CwLinkShell6 ||
-                    useI == (int) ChatType.CwLinkShell7 || useI == (int) ChatType.CwLinkShell4)
+                if (useI == (int) ChatType.PvpTeam)
                 {
                     _checkBoxArr[i].Enabled = false;
                 }
             }
+
+            g1AllSelect.Click += (o, args) => { AllSelect(0, 10); };
+            g2AllSelect.Click += (o, args) => { AllSelect(10, 18); };
+            g3AllSelect.Click += (o, args) => { AllSelect(18, 26); };
+            g1Reverse.Click += (o, args) => { Reverse(0, 10); };
+            g2Reverse.Click += (o, args) => { Reverse(10, 18); };
+            g3Reverse.Click += (o, args) => { Reverse(18, 26); };
+            g1NoSelect.Click += (o, args) => { NoSelect(0, 10); };
+            g2NoSelect.Click += (o, args) => { NoSelect(10, 18); };
+            g3NoSelect.Click += (o, args) => { NoSelect(18, 26); };
+        }
+
+        private void LoadCheckBox(int i)
+        {
+            var checkBox = Controls.Find("checkbox" + (i + 1), true)[0] as CheckBox;
+            var useI = i;
+            if (i >= (int) ChatType.TellToMe) useI++;
+            if (checkBox == null) return;
+            checkBox.Text = EnumHandler.GetNameFromEnum((ChatType) useI);
+            _checkBoxArr[i] = checkBox;
         }
 
         /// <summary>
@@ -94,29 +106,29 @@ namespace Logs_chat_record_extractor
             Hide();
         }
 
-        /// <summary>
-        /// 全不选
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button3_Click(object sender, EventArgs e)
+        private void AllSelect(int start, int end)
         {
-            foreach (var checkBox in _checkBoxArr)
+            for (var i = start; i < end; i++)
             {
-                if (checkBox.Enabled) checkBox.Checked = false;
+                if (_checkBoxArr[i].Enabled) _checkBoxArr[i].Checked = true;
             }
         }
 
-        /// <summary>
-        /// 全选
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
+        private void Reverse(int start, int end)
         {
-            foreach (var checkBox in _checkBoxArr)
+            for (var i = start; i < end; i++)
             {
-                if (checkBox.Enabled) checkBox.Checked = true;
+                if (_checkBoxArr[i].Enabled) _checkBoxArr[i].Checked = !_checkBoxArr[i].Checked;
+            }
+
+            Console.WriteLine("执行了反选");
+        }
+
+        private void NoSelect(int start, int end)
+        {
+            for (var i = start; i < end; i++)
+            {
+                if (_checkBoxArr[i].Enabled) _checkBoxArr[i].Checked = false;
             }
         }
     }

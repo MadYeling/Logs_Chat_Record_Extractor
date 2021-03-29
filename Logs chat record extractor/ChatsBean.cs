@@ -85,13 +85,13 @@ namespace Logs_chat_record_extractor
                     return isPrivate ? "[跨服贝7]" : "";
                 case ChatType.CwLinkShell8:
                     return isPrivate ? "[跨服贝8]" : "";
-                case ChatType.Beginner: return "[新人频道]";
+                case ChatType.Beginner:
+                    return isPrivate ? "[新人]" : "";
                 case ChatType.End:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
 
             return "";
         }
@@ -134,7 +134,7 @@ namespace Logs_chat_record_extractor
                 case ChatType.CwLinkShell8:
                     return HeadToString(true) + "<" + PlayerName + "> ";
                 case ChatType.Beginner:
-                    return PlayerName;
+                    return HeadToString(true) + PlayerName + ": ";
                 case ChatType.End:
                     return "";
                 default:

@@ -160,7 +160,7 @@ namespace Logs_chat_record_extractor
                 .Replace("", "")
                 // 替换团本乱码
                 .Replace("", "Ⓐ").Replace("", "Ⓑ")
-                .Replace("","Ⓒ");
+                .Replace("", "Ⓒ");
             var sp = line.Split('|');
             var time = sp[1].Substring(11, 5);
             var useI = chatType;
@@ -210,8 +210,68 @@ namespace Logs_chat_record_extractor
                         new ChatInfo(ChatType.CwLinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0025|")
                     },
                     {
+                        ChatType.CwLinkShell2,
+                        new ChatInfo(ChatType.CwLinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0065|")
+                    },
+                    {
+                        ChatType.CwLinkShell3,
+                        new ChatInfo(ChatType.CwLinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0066|")
+                    },
+                    {
+                        ChatType.CwLinkShell4,
+                        new ChatInfo(ChatType.CwLinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0067|")
+                    },
+                    {
+                        ChatType.CwLinkShell5,
+                        new ChatInfo(ChatType.CwLinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0068|")
+                    },
+                    {
+                        ChatType.CwLinkShell6,
+                        new ChatInfo(ChatType.CwLinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0069|")
+                    },
+                    {
+                        ChatType.CwLinkShell7,
+                        new ChatInfo(ChatType.CwLinkShell7, Color.FromArgb(159, 191, 96), "+08:00|006a|")
+                    },
+                    {
                         ChatType.CwLinkShell8,
                         new ChatInfo(ChatType.CwLinkShell8, Color.FromArgb(159, 191, 96), "+08:00|006b|")
+                    },
+                    {
+                        ChatType.LinkShell1,
+                        new ChatInfo(ChatType.LinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0010|")
+                    },
+                    {
+                        ChatType.LinkShell2,
+                        new ChatInfo(ChatType.LinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0011|")
+                    },
+                    {
+                        ChatType.LinkShell3,
+                        new ChatInfo(ChatType.LinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0012|")
+                    },
+                    {
+                        ChatType.LinkShell4,
+                        new ChatInfo(ChatType.LinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0013|")
+                    },
+                    {
+                        ChatType.LinkShell5,
+                        new ChatInfo(ChatType.LinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0014|")
+                    },
+                    {
+                        ChatType.LinkShell6,
+                        new ChatInfo(ChatType.LinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0015|")
+                    },
+                    {
+                        ChatType.LinkShell7,
+                        new ChatInfo(ChatType.LinkShell7, Color.FromArgb(159, 191, 96), "+08:00|0016|")
+                    },
+                    {
+                        ChatType.LinkShell8,
+                        new ChatInfo(ChatType.LinkShell8, Color.FromArgb(159, 191, 96), "+08:00|0017|")
+                    },
+                    {
+                        ChatType.Beginner,
+                        new ChatInfo(ChatType.Beginner, Color.FromArgb(159, 191, 96), "+08:00|001b|")
                     },
                     {
                         ChatType.TellToMe,

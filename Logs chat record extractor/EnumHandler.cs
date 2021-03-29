@@ -33,14 +33,14 @@ namespace Logs_chat_record_extractor
                 case ChatType.LinkShell6: return "通讯贝6";
                 case ChatType.LinkShell7: return "通讯贝7";
                 case ChatType.LinkShell8: return "通讯贝8";
-                case ChatType.CwLinkShell1: return "跨服通讯贝1";
-                case ChatType.CwLinkShell2: return "跨服通讯贝2";
-                case ChatType.CwLinkShell3: return "跨服通讯贝3";
-                case ChatType.CwLinkShell4: return "跨服通讯贝4";
-                case ChatType.CwLinkShell5: return "跨服通讯贝5";
-                case ChatType.CwLinkShell6: return "跨服通讯贝6";
-                case ChatType.CwLinkShell7: return "跨服通讯贝7";
-                case ChatType.CwLinkShell8: return "跨服通讯贝8";
+                case ChatType.CwLinkShell1: return "跨服贝1";
+                case ChatType.CwLinkShell2: return "跨服贝2";
+                case ChatType.CwLinkShell3: return "跨服贝3";
+                case ChatType.CwLinkShell4: return "跨服贝4";
+                case ChatType.CwLinkShell5: return "跨服贝5";
+                case ChatType.CwLinkShell6: return "跨服贝6";
+                case ChatType.CwLinkShell7: return "跨服贝7";
+                case ChatType.CwLinkShell8: return "跨服贝8";
                 case ChatType.Beginner: return "新人频道";
                 case ChatType.End:
                     return "";
