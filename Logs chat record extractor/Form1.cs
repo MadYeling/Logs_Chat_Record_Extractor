@@ -60,7 +60,8 @@ namespace Logs_chat_record_extractor
             Application.DoEvents();
             // 将原先的list清理掉
             _chatsBeanList.Clear();
-            using (var sr = new StreamReader(filePath))
+            using (var sr = new StreamReader(
+                new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 string line;
                 // 读取文件
@@ -74,7 +75,7 @@ namespace Logs_chat_record_extractor
                 }
             }
 
-            _mf = new MainForm {ChatsBeanList = _chatsBeanList, MyTitle = _mainFormTitle};
+            _mf = new MainForm { ChatsBeanList = _chatsBeanList, MyTitle = _mainFormTitle };
             _mf.Show(this);
             Hide();
             label1.Text = "就绪";
@@ -88,15 +89,15 @@ namespace Logs_chat_record_extractor
             for (var i = 0; i < EnumHandler.IsChecked.Length; i++)
             {
                 var useI = i;
-                if (i >= (int) ChatType.TellToMe)
+                if (i >= (int)ChatType.TellToMe)
                 {
                     useI++;
                 }
 
-                if (useI == (int) ChatType.Party || useI == (int) ChatType.Speak ||
-                    useI == (int) ChatType.Yell || useI == (int) ChatType.Alliance ||
-                    useI == (int) ChatType.Shout || useI == (int) ChatType.Motion ||
-                    useI == (int) ChatType.TellToOther)
+                if (useI == (int)ChatType.Party || useI == (int)ChatType.Speak ||
+                    useI == (int)ChatType.Yell || useI == (int)ChatType.Alliance ||
+                    useI == (int)ChatType.Shout || useI == (int)ChatType.Motion ||
+                    useI == (int)ChatType.TellToOther)
                 {
                     EnumHandler.IsChecked[i] = true;
                 }
@@ -114,7 +115,7 @@ namespace Logs_chat_record_extractor
             // 通过遍历来判断，避免每次新增一个聊天类型就要改一次
             foreach (var chatInfo in _chatInfoMap.Values)
             {
-                isMeg |= line.Contains(((ChatInfo) chatInfo).ChatCode);
+                isMeg |= line.Contains(((ChatInfo)chatInfo).ChatCode);
                 if (isMeg)
                 {
                     break;
@@ -134,9 +135,9 @@ namespace Logs_chat_record_extractor
             var witchChatType = ChatType.Party;
             foreach (var chatInfo in _chatInfoMap.Values)
             {
-                if (line.Contains(((ChatInfo) chatInfo).ChatCode))
+                if (line.Contains(((ChatInfo)chatInfo).ChatCode))
                 {
-                    witchChatType = ((ChatInfo) chatInfo).ChatType;
+                    witchChatType = ((ChatInfo)chatInfo).ChatType;
                 }
             }
 
@@ -171,8 +172,8 @@ namespace Logs_chat_record_extractor
 
             var chatsBean = new ChatsBean
             {
-                Show = EnumHandler.IsChecked[(int) useI],
-                ChatInfo = (ChatInfo) _chatInfoMap[chatType],
+                Show = EnumHandler.IsChecked[(int)useI],
+                ChatInfo = (ChatInfo)_chatInfoMap[chatType],
                 Time = time,
                 PlayerName = sp[3],
                 Context = sp[4]

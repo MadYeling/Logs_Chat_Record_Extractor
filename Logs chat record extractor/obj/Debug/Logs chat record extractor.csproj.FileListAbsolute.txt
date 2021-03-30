@@ -1,0 +1,13 @@
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\bin\Debug\Logs chat record extractor.exe.config
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\bin\Debug\Logs chat record extractor.exe
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\bin\Debug\Logs chat record extractor.pdb
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs_chat_record_extractor.FilterForm.resources
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs_chat_record_extractor.FindForm.resources
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs_chat_record_extractor.FormOpen.resources
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs_chat_record_extractor.MainForm.resources
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs_chat_record_extractor.Properties.Resources.resources
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs chat record extractor.csproj.GenerateResource.cache
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs chat record extractor.csproj.CoreCompileInputs.cache
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs chat record extractor.exe
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs chat record extractor.pdb
+F:\CSharp\LogsChatRecordExtractor\Logs chat record extractor\Logs chat record extractor\obj\Debug\Logs chat record extractor.csprojAssemblyReference.cache
