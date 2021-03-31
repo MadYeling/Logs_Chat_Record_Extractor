@@ -50,10 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatInfo.cs" />
-    <Compile Include="ChatsBean.cs" />
-    <Compile Include="ChatType.cs" />
-    <Compile Include="EnumHandler.cs" />
     <Compile Include="FilterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +74,10 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Models\ChatInfo.cs" />
+    <Compile Include="Models\ChatType.cs" />
+    <Compile Include="Models\ChatTypeHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FilterForm.resx">

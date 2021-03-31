@@ -43,7 +43,6 @@ namespace Logs_chat_record_extractor
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.g1AllSelect = new System.Windows.Forms.Button();
-            this.g1Reverse = new System.Windows.Forms.Button();
             this.g1NoSelect = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.checkBox18 = new System.Windows.Forms.CheckBox();
@@ -55,7 +54,6 @@ namespace Logs_chat_record_extractor
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.g2AllSelect = new System.Windows.Forms.Button();
-            this.g2Reverse = new System.Windows.Forms.Button();
             this.g2NoSelect = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox26 = new System.Windows.Forms.CheckBox();
@@ -67,7 +65,6 @@ namespace Logs_chat_record_extractor
             this.checkBox20 = new System.Windows.Forms.CheckBox();
             this.checkBox19 = new System.Windows.Forms.CheckBox();
             this.g3AllSelect = new System.Windows.Forms.Button();
-            this.g3Reverse = new System.Windows.Forms.Button();
             this.g3NoSelect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -77,7 +74,7 @@ namespace Logs_chat_record_extractor
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(295, 361);
+            this.button1.Location = new System.Drawing.Point(286, 336);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -88,7 +85,7 @@ namespace Logs_chat_record_extractor
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(376, 361);
+            this.button2.Location = new System.Drawing.Point(367, 336);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -109,7 +106,6 @@ namespace Logs_chat_record_extractor
             this.groupBox1.Controls.Add(this.checkBox2);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.g1AllSelect);
-            this.groupBox1.Controls.Add(this.g1Reverse);
             this.groupBox1.Controls.Add(this.g1NoSelect);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -220,21 +216,12 @@ namespace Logs_chat_record_extractor
             // 
             // g1AllSelect
             // 
-            this.g1AllSelect.Location = new System.Drawing.Point(184, 71);
+            this.g1AllSelect.Location = new System.Drawing.Point(265, 71);
             this.g1AllSelect.Name = "g1AllSelect";
             this.g1AllSelect.Size = new System.Drawing.Size(75, 23);
             this.g1AllSelect.TabIndex = 2;
             this.g1AllSelect.Text = "全选";
             this.g1AllSelect.UseVisualStyleBackColor = true;
-            // 
-            // g1Reverse
-            // 
-            this.g1Reverse.Location = new System.Drawing.Point(265, 71);
-            this.g1Reverse.Name = "g1Reverse";
-            this.g1Reverse.Size = new System.Drawing.Size(75, 23);
-            this.g1Reverse.TabIndex = 1;
-            this.g1Reverse.Text = "反选";
-            this.g1Reverse.UseVisualStyleBackColor = true;
             // 
             // g1NoSelect
             // 
@@ -256,9 +243,8 @@ namespace Logs_chat_record_extractor
             this.groupBox2.Controls.Add(this.checkBox12);
             this.groupBox2.Controls.Add(this.checkBox11);
             this.groupBox2.Controls.Add(this.g2AllSelect);
-            this.groupBox2.Controls.Add(this.g2Reverse);
             this.groupBox2.Controls.Add(this.g2NoSelect);
-            this.groupBox2.Location = new System.Drawing.Point(12, 120);
+            this.groupBox2.Location = new System.Drawing.Point(12, 118);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(430, 100);
             this.groupBox2.TabIndex = 4;
@@ -347,21 +333,12 @@ namespace Logs_chat_record_extractor
             // 
             // g2AllSelect
             // 
-            this.g2AllSelect.Location = new System.Drawing.Point(184, 71);
+            this.g2AllSelect.Location = new System.Drawing.Point(265, 71);
             this.g2AllSelect.Name = "g2AllSelect";
             this.g2AllSelect.Size = new System.Drawing.Size(75, 23);
             this.g2AllSelect.TabIndex = 5;
             this.g2AllSelect.Text = "全选";
             this.g2AllSelect.UseVisualStyleBackColor = true;
-            // 
-            // g2Reverse
-            // 
-            this.g2Reverse.Location = new System.Drawing.Point(265, 71);
-            this.g2Reverse.Name = "g2Reverse";
-            this.g2Reverse.Size = new System.Drawing.Size(75, 23);
-            this.g2Reverse.TabIndex = 4;
-            this.g2Reverse.Text = "反选";
-            this.g2Reverse.UseVisualStyleBackColor = true;
             // 
             // g2NoSelect
             // 
@@ -383,9 +360,8 @@ namespace Logs_chat_record_extractor
             this.groupBox3.Controls.Add(this.checkBox20);
             this.groupBox3.Controls.Add(this.checkBox19);
             this.groupBox3.Controls.Add(this.g3AllSelect);
-            this.groupBox3.Controls.Add(this.g3Reverse);
             this.groupBox3.Controls.Add(this.g3NoSelect);
-            this.groupBox3.Location = new System.Drawing.Point(12, 244);
+            this.groupBox3.Location = new System.Drawing.Point(12, 224);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(430, 100);
             this.groupBox3.TabIndex = 4;
@@ -474,21 +450,12 @@ namespace Logs_chat_record_extractor
             // 
             // g3AllSelect
             // 
-            this.g3AllSelect.Location = new System.Drawing.Point(184, 71);
+            this.g3AllSelect.Location = new System.Drawing.Point(265, 71);
             this.g3AllSelect.Name = "g3AllSelect";
             this.g3AllSelect.Size = new System.Drawing.Size(75, 23);
             this.g3AllSelect.TabIndex = 8;
             this.g3AllSelect.Text = "全选";
             this.g3AllSelect.UseVisualStyleBackColor = true;
-            // 
-            // g3Reverse
-            // 
-            this.g3Reverse.Location = new System.Drawing.Point(265, 71);
-            this.g3Reverse.Name = "g3Reverse";
-            this.g3Reverse.Size = new System.Drawing.Size(75, 23);
-            this.g3Reverse.TabIndex = 7;
-            this.g3Reverse.Text = "反选";
-            this.g3Reverse.UseVisualStyleBackColor = true;
             // 
             // g3NoSelect
             // 
@@ -503,7 +470,7 @@ namespace Logs_chat_record_extractor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(455, 388);
+            this.ClientSize = new System.Drawing.Size(454, 371);
             this.ControlBox = false;
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -532,13 +499,11 @@ namespace Logs_chat_record_extractor
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button g1Reverse;
         private System.Windows.Forms.Button g1NoSelect;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button g1AllSelect;
         private System.Windows.Forms.Button g2AllSelect;
-        private System.Windows.Forms.Button g2Reverse;
         private System.Windows.Forms.Button g2NoSelect;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox8;
@@ -558,7 +523,6 @@ namespace Logs_chat_record_extractor
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.Button g3AllSelect;
-        private System.Windows.Forms.Button g3Reverse;
         private System.Windows.Forms.Button g3NoSelect;
         private System.Windows.Forms.CheckBox checkBox26;
         private System.Windows.Forms.CheckBox checkBox25;

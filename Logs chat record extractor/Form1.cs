@@ -2,29 +2,55 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Windows.Forms;
+using Logs_chat_record_extractor.Models;
 
 namespace Logs_chat_record_extractor
 {
     public partial class FormOpen : Form
     {
+        /// <summary>
+        /// 选择文件对话框
+        /// </summary>
         private OpenFileDialog _openFileDialog1;
 
+        /// <summary>
+        /// 显示聊天内容的主窗口对象
+        /// </summary>
         private MainForm _mf;
-        private readonly ArrayList _chatsBeanList;
-        private static Hashtable _chatInfoMap;
 
+        /// <summary>
+        /// 聊天记录数组
+        /// </summary>
+        private readonly ArrayList _chatList;
+
+        /// <summary>
+        /// 聊天记录信息数组
+        /// </summary>
+        private static ArrayList _chatInfoList;
+
+        /// <summary>
+        /// 主窗口标题
+        /// </summary>
         private string _mainFormTitle;
 
+        /// <summary>
+        /// 构造器
+        /// </summary>
         public FormOpen()
         {
             InitializeComponent();
             InitChecked();
             LoadChatTable();
-            _chatsBeanList = new ArrayList();
+            _chatList = new ArrayList();
         }
 
+        /// <summary>
+        /// 窗口加载
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             _openFileDialog1 = new OpenFileDialog
@@ -36,6 +62,11 @@ namespace Logs_chat_record_extractor
             label1.Text = "就绪";
         }
 
+        /// <summary>
+        /// 选择文件 按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             if (_openFileDialog1.ShowDialog() != DialogResult.OK) return;
@@ -43,10 +74,11 @@ namespace Logs_chat_record_extractor
             _mainFormTitle = Path.GetFileName(_openFileDialog1.FileName);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
+        /// <summary>
+        /// 加载 按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             var filePath = textBox1.Text;
@@ -59,23 +91,27 @@ namespace Logs_chat_record_extractor
             label1.Text = "读取文件中，请稍候...";
             Application.DoEvents();
             // 将原先的list清理掉
-            _chatsBeanList.Clear();
-            using (var sr = new StreamReader(
-                new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+            _chatList.Clear();
+            using (
+                var sr = new StreamReader(
+                    new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
+                )
+            )
             {
                 string line;
                 // 读取文件
                 while ((line = sr.ReadLine()) != null)
                 {
-                    if (IsAChatMessage(line))
+                    var chatInfo = IsAChatMessage(line);
+                    if (chatInfo != null)
                     {
                         // 装载内容
-                        _chatsBeanList.Add(LoadingSb(CheckType(line), line));
+                        _chatList.Add(LoadChatsBean(chatInfo, line));
                     }
                 }
             }
 
-            _mf = new MainForm { ChatsBeanList = _chatsBeanList, MyTitle = _mainFormTitle };
+            _mf = new MainForm(_chatList, _mainFormTitle);
             _mf.Show(this);
             Hide();
             label1.Text = "就绪";
@@ -86,71 +122,36 @@ namespace Logs_chat_record_extractor
         /// </summary>
         private static void InitChecked()
         {
-            for (var i = 0; i < EnumHandler.IsChecked.Length; i++)
+            for (var i = 0; i < ChatTypeHandler.IsChecked.Length; i++)
             {
-                var useI = i;
-                if (i >= (int)ChatType.TellToMe)
+                if (i == (int) ChatType.Party || i == (int) ChatType.Speak ||
+                    i == (int) ChatType.Yell || i == (int) ChatType.Alliance ||
+                    i == (int) ChatType.Shout || i == (int) ChatType.Motion ||
+                    i == (int) ChatType.Tell)
                 {
-                    useI++;
-                }
-
-                if (useI == (int)ChatType.Party || useI == (int)ChatType.Speak ||
-                    useI == (int)ChatType.Yell || useI == (int)ChatType.Alliance ||
-                    useI == (int)ChatType.Shout || useI == (int)ChatType.Motion ||
-                    useI == (int)ChatType.TellToOther)
-                {
-                    EnumHandler.IsChecked[i] = true;
+                    ChatTypeHandler.IsChecked[i] = true;
                 }
             }
         }
 
         /// <summary>
         /// 校验读取的目标是否为聊天内容
+        /// 是则返回聊天信息对象，不是则返回null
         /// </summary>
         /// <param name="line">需要校验的内容</param>
-        /// <returns>是否为聊天记录</returns>
-        private static bool IsAChatMessage(string line)
+        /// <returns>返回对象</returns>
+        private static ChatInfo IsAChatMessage(string line)
         {
-            var isMeg = false;
-            // 通过遍历来判断，避免每次新增一个聊天类型就要改一次
-            foreach (var chatInfo in _chatInfoMap.Values)
-            {
-                isMeg |= line.Contains(((ChatInfo)chatInfo).ChatCode);
-                if (isMeg)
-                {
-                    break;
-                }
-            }
-
-            return isMeg;
-        }
-
-        /// <summary>
-        /// 返回聊天类型
-        /// </summary>
-        /// <param name="line">内容</param>
-        /// <returns>类型</returns>
-        private static ChatType CheckType(string line)
-        {
-            var witchChatType = ChatType.Party;
-            foreach (var chatInfo in _chatInfoMap.Values)
-            {
-                if (line.Contains(((ChatInfo)chatInfo).ChatCode))
-                {
-                    witchChatType = ((ChatInfo)chatInfo).ChatType;
-                }
-            }
-
-            return witchChatType;
+            return _chatInfoList.Cast<ChatInfo>().FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode));
         }
 
         /// <summary>
         /// 装载聊天信息
         /// </summary>
-        /// <param name="chatType">聊天类型</param>
+        /// <param name="chatInfo">聊天信息详情</param>
         /// <param name="line">内容</param>
         /// <returns>装载完成的聊天信息</returns>
-        private static ChatsBean LoadingSb(ChatType chatType, string line)
+        private static Chat LoadChatsBean(ChatInfo chatInfo, string line)
         {
             // 替换小队前面的乱码字符
             line = line.Replace("", "①").Replace("", "②")
@@ -164,16 +165,10 @@ namespace Logs_chat_record_extractor
                 .Replace("", "Ⓒ");
             var sp = line.Split('|');
             var time = sp[1].Substring(11, 5);
-            var useI = chatType;
-            if (chatType > ChatType.TellToMe)
+            var chatsBean = new Chat
             {
-                useI--;
-            }
-
-            var chatsBean = new ChatsBean
-            {
-                Show = EnumHandler.IsChecked[(int)useI],
-                ChatInfo = (ChatInfo)_chatInfoMap[chatType],
+                Show = ChatTypeHandler.IsChecked[ChatTypeHandler.ChatTypeToInt(chatInfo.ChatType)],
+                ChatInfo = chatInfo,
                 Time = time,
                 PlayerName = sp[3],
                 Context = sp[4]
@@ -186,116 +181,38 @@ namespace Logs_chat_record_extractor
         /// </summary>
         private static void LoadChatTable()
         {
-            if (_chatInfoMap == null || _chatInfoMap.Count == 0)
+            _chatInfoList = new ArrayList
             {
-                _chatInfoMap = new Hashtable
-                {
-                    {
-                        ChatType.Speak,
-                        new ChatInfo(ChatType.Speak, Color.FromArgb(178, 178, 178), "+08:00|000a|")
-                    },
-                    {
-                        ChatType.Yell,
-                        new ChatInfo(ChatType.Yell, Color.FromArgb(178, 178, 0), "+08:00|001e|")
-                    },
-                    {
-                        ChatType.Shout,
-                        new ChatInfo(ChatType.Shout, Color.FromArgb(178, 116, 71), "+08:00|000b|")
-                    },
-                    {
-                        ChatType.Party,
-                        new ChatInfo(ChatType.Party, Color.FromArgb(71, 168, 178), "+08:00|000e|")
-                    },
-                    {
-                        ChatType.CwLinkShell1,
-                        new ChatInfo(ChatType.CwLinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0025|")
-                    },
-                    {
-                        ChatType.CwLinkShell2,
-                        new ChatInfo(ChatType.CwLinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0065|")
-                    },
-                    {
-                        ChatType.CwLinkShell3,
-                        new ChatInfo(ChatType.CwLinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0066|")
-                    },
-                    {
-                        ChatType.CwLinkShell4,
-                        new ChatInfo(ChatType.CwLinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0067|")
-                    },
-                    {
-                        ChatType.CwLinkShell5,
-                        new ChatInfo(ChatType.CwLinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0068|")
-                    },
-                    {
-                        ChatType.CwLinkShell6,
-                        new ChatInfo(ChatType.CwLinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0069|")
-                    },
-                    {
-                        ChatType.CwLinkShell7,
-                        new ChatInfo(ChatType.CwLinkShell7, Color.FromArgb(159, 191, 96), "+08:00|006a|")
-                    },
-                    {
-                        ChatType.CwLinkShell8,
-                        new ChatInfo(ChatType.CwLinkShell8, Color.FromArgb(159, 191, 96), "+08:00|006b|")
-                    },
-                    {
-                        ChatType.LinkShell1,
-                        new ChatInfo(ChatType.LinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0010|")
-                    },
-                    {
-                        ChatType.LinkShell2,
-                        new ChatInfo(ChatType.LinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0011|")
-                    },
-                    {
-                        ChatType.LinkShell3,
-                        new ChatInfo(ChatType.LinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0012|")
-                    },
-                    {
-                        ChatType.LinkShell4,
-                        new ChatInfo(ChatType.LinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0013|")
-                    },
-                    {
-                        ChatType.LinkShell5,
-                        new ChatInfo(ChatType.LinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0014|")
-                    },
-                    {
-                        ChatType.LinkShell6,
-                        new ChatInfo(ChatType.LinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0015|")
-                    },
-                    {
-                        ChatType.LinkShell7,
-                        new ChatInfo(ChatType.LinkShell7, Color.FromArgb(159, 191, 96), "+08:00|0016|")
-                    },
-                    {
-                        ChatType.LinkShell8,
-                        new ChatInfo(ChatType.LinkShell8, Color.FromArgb(159, 191, 96), "+08:00|0017|")
-                    },
-                    {
-                        ChatType.Beginner,
-                        new ChatInfo(ChatType.Beginner, Color.FromArgb(159, 191, 96), "+08:00|001b|")
-                    },
-                    {
-                        ChatType.TellToMe,
-                        new ChatInfo(ChatType.TellToMe, Color.FromArgb(178, 129, 155), "+08:00|000d|")
-                    },
-                    {
-                        ChatType.TellToOther,
-                        new ChatInfo(ChatType.TellToOther, Color.FromArgb(178, 129, 155), "+08:00|000c|")
-                    },
-                    {
-                        ChatType.Motion,
-                        new ChatInfo(ChatType.Motion, Color.FromArgb(130, 178, 168), "+08:00|001d|")
-                    },
-                    {
-                        ChatType.FreeCompany,
-                        new ChatInfo(ChatType.FreeCompany, Color.FromArgb(134, 171, 178), "+08:00|0018|")
-                    },
-                    {
-                        ChatType.Alliance,
-                        new ChatInfo(ChatType.Alliance, Color.FromArgb(178, 89, 0), "+08:00|000f|")
-                    }
-                };
-            }
+                new ChatInfo(ChatType.Speak, Color.FromArgb(178, 178, 178), "+08:00|000a|"),
+                new ChatInfo(ChatType.Yell, Color.FromArgb(178, 178, 0), "+08:00|001e|"),
+                new ChatInfo(ChatType.Shout, Color.FromArgb(178, 116, 71), "+08:00|000b|"),
+                new ChatInfo(ChatType.Party, Color.FromArgb(71, 168, 178), "+08:00|000e|"),
+                new ChatInfo(ChatType.CwLinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0025|"),
+                new ChatInfo(ChatType.CwLinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0065|"),
+                new ChatInfo(ChatType.CwLinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0066|"),
+                new ChatInfo(ChatType.CwLinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0067|"),
+                new ChatInfo(ChatType.CwLinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0068|"),
+                new ChatInfo(ChatType.CwLinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0069|"),
+                new ChatInfo(ChatType.CwLinkShell7, Color.FromArgb(159, 191, 96), "+08:00|006a|"),
+                new ChatInfo(ChatType.CwLinkShell8, Color.FromArgb(159, 191, 96), "+08:00|006b|"),
+                new ChatInfo(ChatType.LinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0010|"),
+                new ChatInfo(ChatType.LinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0011|"),
+                new ChatInfo(ChatType.LinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0012|"),
+                new ChatInfo(ChatType.LinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0013|"),
+                new ChatInfo(ChatType.LinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0014|"),
+                new ChatInfo(ChatType.LinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0015|"),
+                new ChatInfo(ChatType.LinkShell7, Color.FromArgb(159, 191, 96), "+08:00|0016|"),
+                new ChatInfo(ChatType.LinkShell8, Color.FromArgb(159, 191, 96), "+08:00|0017|"),
+                new ChatInfo(ChatType.Beginner, Color.FromArgb(159, 191, 96), "+08:00|001b|"),
+                new ChatInfo(ChatType.Tell, Color.FromArgb(178, 129, 155), "+08:00|000d|"),
+                new ChatInfo(ChatType.TellToOther, Color.FromArgb(178, 129, 155), "+08:00|000c|"),
+                //官方情感动作
+                new ChatInfo(ChatType.Motion, Color.FromArgb(130, 178, 168), "+08:00|001d|"),
+                //自定义的情感动作
+                new ChatInfo(ChatType.MotionCustom, Color.FromArgb(130, 178, 168), "+08:00|001c|"),
+                new ChatInfo(ChatType.FreeCompany, Color.FromArgb(134, 171, 178), "+08:00|0018|"),
+                new ChatInfo(ChatType.Alliance, Color.FromArgb(178, 89, 0), "+08:00|000f|"),
+            };
         }
     }
 }

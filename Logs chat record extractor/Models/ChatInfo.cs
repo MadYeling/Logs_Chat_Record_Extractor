@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Logs_chat_record_extractor
+namespace Logs_chat_record_extractor.Models
 {
     public class ChatInfo
     {

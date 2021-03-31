@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Logs_chat_record_extractor
+namespace Logs_chat_record_extractor.Models
 {
-    public class ChatsBean
+    public class Chat
     {
         public ChatInfo ChatInfo { get; set; }
         public string Time { get; set; }
@@ -13,20 +13,12 @@ namespace Logs_chat_record_extractor
 
         public override string ToString()
         {
-            switch (ChatInfo.ChatType)
+            if (ChatInfo.ChatType == ChatType.Motion)
             {
-                case ChatType.Yell:
-                case ChatType.Speak:
-                case ChatType.Shout:
-                case ChatType.Party:
-                case ChatType.TellToOther:
-                case ChatType.TellToMe:
-                    return TimeToString() + NameToString() + Context;
-                case ChatType.Motion:
-                    return TimeToString() + Context;
-                default:
-                    return TimeToString() + NameToString() + Context;
+                return TimeToString() + Context;
             }
+
+            return TimeToString() + NameToString() + Context;
         }
 
         public string HeadToString(bool isPrivate)
@@ -47,11 +39,11 @@ namespace Logs_chat_record_extractor
                     return "[喊话]";
                 case ChatType.Shout:
                     return "[呼喊]";
-                case ChatType.TellToMe:
-                    return "[悄悄话]";
+                case ChatType.Tell:
                 case ChatType.TellToOther:
                     return "[悄悄话]";
                 case ChatType.Motion:
+                case ChatType.MotionCustom:
                     return "[情感动作]";
                 case ChatType.LinkShell1:
                     return isPrivate ? "[通讯贝1]" : "";
@@ -107,12 +99,14 @@ namespace Logs_chat_record_extractor
                 case ChatType.Party:
                 case ChatType.Alliance:
                     return "(" + PlayerName + ") ";
-                case ChatType.TellToOther:
+                case ChatType.Tell:
                     return ">>" + PlayerName + " : ";
-                case ChatType.TellToMe:
+                case ChatType.TellToOther:
                     return PlayerName + ">>";
                 case ChatType.Motion:
                     return "";
+                case ChatType.MotionCustom:
+                    return PlayerName;
                 case ChatType.PvpTeam:
                     return PlayerName;
                 case ChatType.FreeCompany:

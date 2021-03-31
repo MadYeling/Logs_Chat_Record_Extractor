@@ -1,4 +1,4 @@
-﻿namespace Logs_chat_record_extractor
+﻿namespace Logs_chat_record_extractor.Models
 {
     public enum ChatType
     {
@@ -38,13 +38,12 @@
         Shout,
 
         /// <summary>
-        /// 悄悄话
+        /// 悄悄话（别人发过来的）
         /// </summary>
-        TellToMe,
-        TellToOther,
+        Tell,
 
         /// <summary>
-        /// 情感动作、表情等
+        /// 情感动作
         /// </summary>
         Motion,
         
@@ -80,6 +79,20 @@
         /// <summary>
         /// 用于计数的END枚举
         /// </summary>
-        End
+        End,
+        
+        // 下面这俩必须得放在End后面，这俩不能计数
+        
+        /// <summary>
+        /// 自定义情感动作
+        /// </summary>
+        MotionCustom,
+        
+        /// <summary>
+        /// 给别人发送的悄悄话
+        /// </summary>
+        TellToOther
+        
     }
+
 }
