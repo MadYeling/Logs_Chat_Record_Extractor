@@ -79,7 +79,7 @@ namespace Logs_chat_record_extractor
                 // 是否显示时间
                 if (_showTime) richTextBox1.AppendText(cb.TimeToString());
                 // 是否显示类型
-                if (_showHead) richTextBox1.AppendText(cb.HeadToString(false));
+                if (_showHead) richTextBox1.AppendText(cb.ChatTypeToString(false));
 
                 richTextBox1.AppendText(cb.NameToString());
                 richTextBox1.AppendText(cb.Context);

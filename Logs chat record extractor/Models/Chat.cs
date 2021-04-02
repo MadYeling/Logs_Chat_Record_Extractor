@@ -4,11 +4,29 @@ namespace Logs_chat_record_extractor.Models
 {
     public class Chat
     {
+        /// <summary>
+        /// 聊天信息
+        /// </summary>
         public ChatInfo ChatInfo { get; set; }
+
+        /// <summary>
+        /// 时间
+        /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// 玩家名称
+        /// </summary>
         public string PlayerName { get; set; }
+
+        /// <summary>
+        /// 聊天内容
+        /// </summary>
         public string Context { get; set; }
 
+        /// <summary>
+        /// 是否显示
+        /// </summary>
         public bool Show { get; set; }
 
         public override string ToString()
@@ -21,62 +39,45 @@ namespace Logs_chat_record_extractor.Models
             return TimeToString() + NameToString() + Context;
         }
 
-        public string HeadToString(bool isPrivate)
+        /// <summary>
+        /// 将聊天类型转文字
+        /// </summary>
+        /// <param name="isPrivate">是否为固定显示</param>
+        /// <returns>转换的文字</returns>
+        /// <exception cref="ArgumentOutOfRangeException">超出数组界限</exception>
+        public string ChatTypeToString(bool isPrivate)
         {
             switch (ChatInfo.ChatType)
             {
                 case ChatType.Party:
-                    return "[小队]";
                 case ChatType.Alliance:
-                    return "[团队]";
-                case ChatType.FreeCompany:
-                    return isPrivate ? "[部队]" : "";
                 case ChatType.PvpTeam:
-                    return "[PVP]";
                 case ChatType.Speak:
-                    return "[说话]";
                 case ChatType.Yell:
-                    return "[喊话]";
                 case ChatType.Shout:
-                    return "[呼喊]";
                 case ChatType.Tell:
                 case ChatType.TellToOther:
-                    return "[悄悄话]";
                 case ChatType.Motion:
                 case ChatType.MotionCustom:
-                    return "[情感动作]";
+                    return $"[{ChatTypeHandler.ChatTypeToName(ChatInfo.ChatType)}]";
+                case ChatType.FreeCompany:
                 case ChatType.LinkShell1:
-                    return isPrivate ? "[通讯贝1]" : "";
                 case ChatType.LinkShell2:
-                    return isPrivate ? "[通讯贝2]" : "";
                 case ChatType.LinkShell3:
-                    return isPrivate ? "[通讯贝3]" : "";
                 case ChatType.LinkShell4:
-                    return isPrivate ? "[通讯贝4]" : "";
                 case ChatType.LinkShell5:
-                    return isPrivate ? "[通讯贝5]" : "";
                 case ChatType.LinkShell6:
-                    return isPrivate ? "[通讯贝6]" : "";
                 case ChatType.LinkShell7:
-                    return isPrivate ? "[通讯贝7]" : "";
                 case ChatType.LinkShell8:
-                    return isPrivate ? "[通讯贝8]" : "";
                 case ChatType.CwLinkShell1:
-                    return isPrivate ? "[跨服贝1]" : "";
                 case ChatType.CwLinkShell2:
-                    return isPrivate ? "[跨服贝2]" : "";
                 case ChatType.CwLinkShell3:
-                    return isPrivate ? "[跨服贝3]" : "";
                 case ChatType.CwLinkShell4:
-                    return isPrivate ? "[跨服贝4]" : "";
                 case ChatType.CwLinkShell5:
-                    return isPrivate ? "[跨服贝5]" : "";
                 case ChatType.CwLinkShell6:
-                    return isPrivate ? "[跨服贝6]" : "";
                 case ChatType.CwLinkShell7:
-                    return isPrivate ? "[跨服贝7]" : "";
                 case ChatType.CwLinkShell8:
-                    return isPrivate ? "[跨服贝8]" : "";
+                    return isPrivate ? $"[{ChatTypeHandler.ChatTypeToName(ChatInfo.ChatType)}]" : "";
                 case ChatType.Beginner:
                     return isPrivate ? "[新人]" : "";
                 case ChatType.End:
@@ -88,6 +89,10 @@ namespace Logs_chat_record_extractor.Models
             return "";
         }
 
+        /// <summary>
+        /// 处理玩家名称
+        /// </summary>
+        /// <returns>处理后的名称</returns>
         public string NameToString()
         {
             switch (ChatInfo.ChatType)
@@ -126,9 +131,9 @@ namespace Logs_chat_record_extractor.Models
                 case ChatType.CwLinkShell6:
                 case ChatType.CwLinkShell7:
                 case ChatType.CwLinkShell8:
-                    return HeadToString(true) + "<" + PlayerName + "> ";
+                    return ChatTypeToString(true) + "<" + PlayerName + "> ";
                 case ChatType.Beginner:
-                    return HeadToString(true) + PlayerName + ": ";
+                    return ChatTypeToString(true) + PlayerName + ": ";
                 case ChatType.End:
                     return "";
                 default:
@@ -136,6 +141,10 @@ namespace Logs_chat_record_extractor.Models
             }
         }
 
+        /// <summary>
+        /// 处理时间
+        /// </summary>
+        /// <returns></returns>
         public string TimeToString()
         {
             return "[" + Time + "]";

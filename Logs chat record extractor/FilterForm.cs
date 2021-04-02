@@ -8,9 +8,14 @@ namespace Logs_chat_record_extractor
     public partial class FilterForm : Form
     {
         /// <summary>
+        /// 数组长度
+        /// </summary>
+        private static readonly int IsShowArrLength = ChatTypeHandler.GetIsShowArrayLength();
+
+        /// <summary>
         /// 复选框数组
         /// </summary>
-        private readonly CheckBox[] _checkBoxArr = new CheckBox[ChatTypeHandler.IsChecked.Length];
+        private readonly CheckBox[] _checkBoxArr = new CheckBox[IsShowArrLength];
 
         /// <summary>
         /// 主窗口对象
@@ -37,7 +42,7 @@ namespace Logs_chat_record_extractor
             for (var i = 0; i < _checkBoxArr.Length; i++)
             {
                 LoadCheckBox(i);
-                _checkBoxArr[i].Checked = ChatTypeHandler.IsChecked[i];
+                _checkBoxArr[i].Checked = ChatTypeHandler.IsShowThisChatType(i);
                 // 锁上没做好的复选框
                 if (i == (int) ChatType.PvpTeam)
                 {
@@ -61,7 +66,7 @@ namespace Logs_chat_record_extractor
         private void LoadCheckBox(int i)
         {
             if (!(Controls.Find("checkbox" + (i + 1), true)[0] is CheckBox checkBox)) return;
-            checkBox.Text = ChatTypeHandler.GetNameFromEnum((ChatType) i);
+            checkBox.Text = ChatTypeHandler.ChatTypeToName((ChatType) i);
             _checkBoxArr[i] = checkBox;
         }
 
@@ -73,15 +78,15 @@ namespace Logs_chat_record_extractor
         private void button1_Click(object sender, EventArgs e)
         {
             // 将储存复选框状态的数组修改为对应复选框的选择状态
-            for (var i = 0; i < ChatTypeHandler.IsChecked.Length; i++)
+            for (var i = 0; i < IsShowArrLength; i++)
             {
-                ChatTypeHandler.IsChecked[i] = _checkBoxArr[i].Checked;
+                ChatTypeHandler.SetIsShowThisChatType(i, _checkBoxArr[i].Checked);
             }
 
             var newChatList = new ArrayList();
             foreach (Chat chat in _chatList)
             {
-                chat.Show = ChatTypeHandler.IsChecked[ChatTypeHandler.ChatTypeToInt(chat.ChatInfo.ChatType)];
+                chat.Show = ChatTypeHandler.IsShowThisChatType(chat.ChatInfo.ChatType);
                 newChatList.Add(chat);
             }
 
@@ -96,14 +101,19 @@ namespace Logs_chat_record_extractor
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-            for (var i = 0; i < ChatTypeHandler.IsChecked.Length; i++)
+            for (var i = 0; i < IsShowArrLength; i++)
             {
-                _checkBoxArr[i].Checked = ChatTypeHandler.IsChecked[i];
+                _checkBoxArr[i].Checked = ChatTypeHandler.IsShowThisChatType(i);
             }
 
             Hide();
         }
 
+        /// <summary>
+        /// 全选
+        /// </summary>
+        /// <param name="start">起始复选框</param>
+        /// <param name="end">结束复选框</param>
         private void AllSelect(int start, int end)
         {
             for (var i = start; i < end; i++)
@@ -112,6 +122,11 @@ namespace Logs_chat_record_extractor
             }
         }
 
+        /// <summary>
+        /// 取消选择
+        /// </summary>
+        /// <param name="start">起始复选框</param>
+        /// <param name="end">结束复选框</param>
         private void NoSelect(int start, int end)
         {
             for (var i = start; i < end; i++)

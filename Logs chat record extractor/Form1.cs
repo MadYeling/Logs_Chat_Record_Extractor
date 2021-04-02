@@ -122,14 +122,14 @@ namespace Logs_chat_record_extractor
         /// </summary>
         private static void InitChecked()
         {
-            for (var i = 0; i < ChatTypeHandler.IsChecked.Length; i++)
+            for (var i = 0; i < ChatTypeHandler.GetIsShowArrayLength(); i++)
             {
                 if (i == (int) ChatType.Party || i == (int) ChatType.Speak ||
                     i == (int) ChatType.Yell || i == (int) ChatType.Alliance ||
                     i == (int) ChatType.Shout || i == (int) ChatType.Motion ||
                     i == (int) ChatType.Tell)
                 {
-                    ChatTypeHandler.IsChecked[i] = true;
+                    ChatTypeHandler.SetIsShowThisChatType(i, true);
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace Logs_chat_record_extractor
             var time = sp[1].Substring(11, 5);
             var chatsBean = new Chat
             {
-                Show = ChatTypeHandler.IsChecked[ChatTypeHandler.ChatTypeToInt(chatInfo.ChatType)],
+                Show = ChatTypeHandler.IsShowThisChatType(chatInfo.ChatType),
                 ChatInfo = chatInfo,
                 Time = time,
                 PlayerName = sp[3],
