@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Logs_chat_record_extractor.Models;
 
@@ -23,11 +23,11 @@ namespace Logs_chat_record_extractor
         private MainForm _mainForm;
 
         /// <summary>
-        /// 聊天数组
+        /// 聊天集合
         /// </summary>
-        private readonly ArrayList _chatList;
+        private readonly List<Chat> _chatList;
 
-        public FilterForm(ArrayList chatList)
+        public FilterForm(List<Chat> chatList)
         {
             InitializeComponent();
             _chatList = chatList;
@@ -83,8 +83,8 @@ namespace Logs_chat_record_extractor
                 ChatTypeHandler.SetIsShowThisChatType(i, _checkBoxArr[i].Checked);
             }
 
-            var newChatList = new ArrayList();
-            foreach (Chat chat in _chatList)
+            var newChatList = new List<Chat>();
+            foreach (var chat in _chatList)
             {
                 chat.Show = ChatTypeHandler.IsShowThisChatType(chat.ChatInfo.ChatType);
                 newChatList.Add(chat);

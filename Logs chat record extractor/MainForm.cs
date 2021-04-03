@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Logs_chat_record_extractor.Models;
 
@@ -8,10 +9,10 @@ namespace Logs_chat_record_extractor
     public partial class MainForm : Form
     {
         /// <summary>
-        /// 聊天数组
+        /// 聊天集合
         /// </summary>
-        private readonly ArrayList _chatList;
-        
+        private readonly List<Chat> _chatList;
+
         /// <summary>
         /// 标题
         /// </summary>
@@ -33,7 +34,7 @@ namespace Logs_chat_record_extractor
         private bool _showHead;
 
 
-        public MainForm(ArrayList chatList, string myTitle)
+        public MainForm(List<Chat> chatList, string myTitle)
         {
             InitializeComponent();
             FormClosed += MainForm_FormClosed;
@@ -63,26 +64,25 @@ namespace Logs_chat_record_extractor
         /// <summary>
         /// 刷新富文本框
         /// </summary>
-        public void RefreshRichTextBox(ArrayList chatList)
+        /// <param name="chatList">聊天集合</param>
+        public void RefreshRichTextBox(IEnumerable<Chat> chatList)
         {
             // 清空内容
             richTextBox1.Text = "";
             // 锁定富文本框
             richTextBox1.Enabled = false;
-            // 遍历读取聊天记录数组
-            foreach (Chat cb in chatList)
+            // 遍历读取聊天记录集合
+            foreach (var chat in chatList.Where(chat => chat.Show))
             {
-                // 是否显示这条记录
-                if (!cb.Show) continue;
                 // 设置文本颜色
-                richTextBox1.SelectionColor = cb.ChatInfo.ChatColor;
+                richTextBox1.SelectionColor = chat.ChatInfo.ChatColor;
                 // 是否显示时间
-                if (_showTime) richTextBox1.AppendText(cb.TimeToString());
+                if (_showTime) richTextBox1.AppendText(chat.TimeToString());
                 // 是否显示类型
-                if (_showHead) richTextBox1.AppendText(cb.ChatTypeToString(false));
+                if (_showHead) richTextBox1.AppendText(chat.ChatTypeToString(false));
 
-                richTextBox1.AppendText(cb.NameToString());
-                richTextBox1.AppendText(cb.Context);
+                richTextBox1.AppendText(chat.NameToString());
+                richTextBox1.AppendText(chat.Context);
                 richTextBox1.AppendText("\r\n");
             }
 

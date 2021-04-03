@@ -21,11 +21,6 @@ namespace Logs_chat_record_extractor
         private static bool _direction;
 
         /// <summary>
-        /// 是否为第二次寻找
-        /// </summary>
-        private bool _seekAgain;
-
-        /// <summary>
         /// 上次搜索的内容
         /// </summary>
         private static string _lastFindText = "";
@@ -126,7 +121,7 @@ namespace Logs_chat_record_extractor
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            MyFind(textBox1.Text);
+            MyFind(textBox1.Text, false);
         }
 
         /// <summary>
@@ -153,7 +148,8 @@ namespace Logs_chat_record_extractor
         /// 查找
         /// </summary>
         /// <param name="str">查找的内容</param>
-        private void MyFind(string str)
+        /// <param name="seekAgain">是否为第二次寻找</param>
+        private void MyFind(string str, bool seekAgain)
         {
             // 获取光标位置
             var rboxL = _richTextBox.SelectionStart;
@@ -169,26 +165,22 @@ namespace Logs_chat_record_extractor
                 (_isMatchCase ? RichTextBoxFinds.MatchCase : RichTextBoxFinds.None)
             );
 
-            // 找到内容，给予焦点，并将二次寻找标志符设为false
+            // 找到内容，给予焦点
             if (index > -1)
             {
                 _richTextBox.Focus();
-                _seekAgain = false;
             }
-            // 如果开启循环并且没有搜索到需要的内容，就把指针根据方向设置挪到头或尾
-            // 然后将二次寻找标志符设置为true，递归一次
-            else if (_isCycle && !_seekAgain)
+            // 如果开启循环并且没有搜索到需要的内容，就把指针根据方向设置挪到头或尾，然后递归
+            else if (_isCycle && !seekAgain)
             {
                 _richTextBox.SelectionStart = _direction ? _richTextBox.MaxLength : 0;
                 // 将二次寻找标志符设置为true防止发生无限递归
-                _seekAgain = true;
-                MyFind(str);
+                MyFind(str, true);
             }
-            // 没有找到内容，发出提示，将二次寻找标志符设为false
+            // 没有找到内容，发出提示
             else
             {
                 MessageBox.Show($"找不到 \"{str}\"", "加载器", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                _seekAgain = false;
             }
         }
 

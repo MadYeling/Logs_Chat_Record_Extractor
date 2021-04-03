@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -21,14 +21,14 @@ namespace Logs_chat_record_extractor
         private MainForm _mf;
 
         /// <summary>
-        /// 聊天记录数组
+        /// 聊天记录集合
         /// </summary>
-        private readonly ArrayList _chatList;
+        private readonly List<Chat> _chatList;
 
         /// <summary>
-        /// 聊天记录信息数组
+        /// 聊天记录信息集合
         /// </summary>
-        private static ArrayList _chatInfoList;
+        private static List<ChatInfo> _chatInfoList;
 
         /// <summary>
         /// 主窗口标题
@@ -42,8 +42,8 @@ namespace Logs_chat_record_extractor
         {
             InitializeComponent();
             InitChecked();
-            LoadChatTable();
-            _chatList = new ArrayList();
+            InitChatInfoList();
+            _chatList = new List<Chat>();
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Logs_chat_record_extractor
                     if (chatInfo != null)
                     {
                         // 装载内容
-                        _chatList.Add(LoadChatsBean(chatInfo, line));
+                        _chatList.Add(LoadChat(chatInfo, line));
                     }
                 }
             }
@@ -142,7 +142,7 @@ namespace Logs_chat_record_extractor
         /// <returns>返回对象</returns>
         private static ChatInfo IsAChatMessage(string line)
         {
-            return _chatInfoList.Cast<ChatInfo>().FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode));
+            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode));
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Logs_chat_record_extractor
         /// <param name="chatInfo">聊天信息详情</param>
         /// <param name="line">内容</param>
         /// <returns>装载完成的聊天信息</returns>
-        private static Chat LoadChatsBean(ChatInfo chatInfo, string line)
+        private static Chat LoadChat(ChatInfo chatInfo, string line)
         {
             // 替换小队前面的乱码字符
             line = line.Replace("", "①").Replace("", "②")
@@ -165,7 +165,7 @@ namespace Logs_chat_record_extractor
                 .Replace("", "Ⓒ");
             var sp = line.Split('|');
             var time = sp[1].Substring(11, 5);
-            var chatsBean = new Chat
+            var chat = new Chat
             {
                 Show = ChatTypeHandler.IsShowThisChatType(chatInfo.ChatType),
                 ChatInfo = chatInfo,
@@ -173,15 +173,15 @@ namespace Logs_chat_record_extractor
                 PlayerName = sp[3],
                 Context = sp[4]
             };
-            return chatsBean;
+            return chat;
         }
 
         /// <summary>
-        /// 初始化聊天信息表
+        /// 初始化聊天信息集合
         /// </summary>
-        private static void LoadChatTable()
+        private static void InitChatInfoList()
         {
-            _chatInfoList = new ArrayList
+            _chatInfoList = new List<ChatInfo>
             {
                 new ChatInfo(ChatType.Speak, Color.FromArgb(178, 178, 178), "+08:00|000a|"),
                 new ChatInfo(ChatType.Yell, Color.FromArgb(178, 178, 0), "+08:00|001e|"),
