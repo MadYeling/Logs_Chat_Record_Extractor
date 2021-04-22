@@ -79,7 +79,7 @@ namespace Logs_chat_record_extractor.Models
             switch (chatType)
             {
                 case ChatType.Party: return "小队";
-                case ChatType.Alliance: return "团队";
+                case ChatType.Alliance: return "团队/PVP";
                 case ChatType.FreeCompany: return "部队";
                 case ChatType.Speak: return "说话";
                 case ChatType.Yell: return "呼喊";
