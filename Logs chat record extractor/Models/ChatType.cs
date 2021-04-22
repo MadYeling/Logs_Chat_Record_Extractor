@@ -18,11 +18,6 @@
         FreeCompany,
 
         /// <summary>
-        /// 战队
-        /// </summary>
-        PvpTeam,
-
-        /// <summary>
         /// 说话
         /// </summary>
         Speak,

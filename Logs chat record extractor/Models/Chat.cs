@@ -51,7 +51,6 @@ namespace Logs_chat_record_extractor.Models
             {
                 case ChatType.Party:
                 case ChatType.Alliance:
-                case ChatType.PvpTeam:
                 case ChatType.Speak:
                 case ChatType.Yell:
                 case ChatType.Shout:
@@ -111,8 +110,6 @@ namespace Logs_chat_record_extractor.Models
                 case ChatType.Motion:
                     return "";
                 case ChatType.MotionCustom:
-                    return PlayerName;
-                case ChatType.PvpTeam:
                     return PlayerName;
                 case ChatType.FreeCompany:
                 case ChatType.LinkShell1:

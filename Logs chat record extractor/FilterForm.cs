@@ -43,20 +43,15 @@ namespace Logs_chat_record_extractor
             {
                 LoadCheckBox(i);
                 _checkBoxArr[i].Checked = ChatTypeHandler.IsShowThisChatType(i);
-                // 锁上没做好的复选框
-                if (i == (int) ChatType.PvpTeam)
-                {
-                    _checkBoxArr[i].Enabled = false;
-                }
             }
 
             // 注册各个全选按钮和取消全选按钮的点击事件
-            g1AllSelect.Click += (o, args) => { AllSelect(0, 10); };
-            g2AllSelect.Click += (o, args) => { AllSelect(10, 18); };
-            g3AllSelect.Click += (o, args) => { AllSelect(18, 26); };
-            g1NoSelect.Click += (o, args) => { NoSelect(0, 10); };
-            g2NoSelect.Click += (o, args) => { NoSelect(10, 18); };
-            g3NoSelect.Click += (o, args) => { NoSelect(18, 26); };
+            g1AllSelect.Click += (o, args) => { AllSelect(0, 9); };
+            g2AllSelect.Click += (o, args) => { AllSelect(9, 17); };
+            g3AllSelect.Click += (o, args) => { AllSelect(17, 25); };
+            g1NoSelect.Click += (o, args) => { NoSelect(0, 9); };
+            g2NoSelect.Click += (o, args) => { NoSelect(9, 17); };
+            g3NoSelect.Click += (o, args) => { NoSelect(17, 25); };
         }
 
         /// <summary>

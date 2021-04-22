@@ -81,7 +81,6 @@ namespace Logs_chat_record_extractor.Models
                 case ChatType.Party: return "小队";
                 case ChatType.Alliance: return "团队";
                 case ChatType.FreeCompany: return "部队";
-                case ChatType.PvpTeam: return "PVP战队";
                 case ChatType.Speak: return "说话";
                 case ChatType.Yell: return "呼喊";
                 case ChatType.Shout: return "喊话";
@@ -134,66 +133,12 @@ namespace Logs_chat_record_extractor.Models
         {
             switch (chatType)
             {
-                case ChatType.Party:
-                    return 0;
-                case ChatType.Alliance:
-                    return 1;
-                case ChatType.FreeCompany:
-                    return 2;
-                case ChatType.PvpTeam:
-                    return 3;
-                case ChatType.Speak:
-                    return 4;
-                case ChatType.Yell:
-                    return 5;
-                case ChatType.Shout:
-                    return 6;
-                case ChatType.Tell:
-                    return 7;
-                case ChatType.Motion:
-                    return 8;
-                case ChatType.Beginner:
-                    return 9;
-                case ChatType.LinkShell1:
-                    return 10;
-                case ChatType.LinkShell2:
-                    return 11;
-                case ChatType.LinkShell3:
-                    return 12;
-                case ChatType.LinkShell4:
-                    return 13;
-                case ChatType.LinkShell5:
-                    return 14;
-                case ChatType.LinkShell6:
-                    return 15;
-                case ChatType.LinkShell7:
-                    return 16;
-                case ChatType.LinkShell8:
-                    return 17;
-                case ChatType.CwLinkShell1:
-                    return 18;
-                case ChatType.CwLinkShell2:
-                    return 19;
-                case ChatType.CwLinkShell3:
-                    return 20;
-                case ChatType.CwLinkShell4:
-                    return 21;
-                case ChatType.CwLinkShell5:
-                    return 22;
-                case ChatType.CwLinkShell6:
-                    return 23;
-                case ChatType.CwLinkShell7:
-                    return 24;
-                case ChatType.CwLinkShell8:
-                    return 25;
-                case ChatType.End:
-                    return 26;
                 case ChatType.MotionCustom:
-                    return 8;
+                    return (int) ChatType.Motion;
                 case ChatType.TellToOther:
-                    return 7;
+                    return (int) ChatType.Tell;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(chatType), chatType, null);
+                    return (int) chatType;
             }
         }
     }
