@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("ACT聊天记录加载器")]
-[assembly: AssemblyDescription("用于加载由ACT生成的LOGS文件中的聊天内容")]
+[assembly: AssemblyTitle("用于加载由ACT生成的LOGS文件中的聊天内容")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Logs chat record extractor")]
+[assembly: AssemblyProduct("ACT聊天记录加载器")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.6.0")]
-[assembly: AssemblyFileVersion("1.3.6.0")]
+[assembly: AssemblyVersion("1.3.7.0")]
+[assembly: AssemblyFileVersion("1.3.7.0")]

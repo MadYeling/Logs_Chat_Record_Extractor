@@ -128,7 +128,6 @@ namespace Logs_chat_record_extractor.Models
         /// </summary>
         /// <param name="chatType">聊天类型</param>
         /// <returns>聊天类型对应数字</returns>
-        /// <exception cref="ArgumentOutOfRangeException">超出枚举范围</exception>
         private static int ChatTypeToInt(ChatType chatType)
         {
             switch (chatType)

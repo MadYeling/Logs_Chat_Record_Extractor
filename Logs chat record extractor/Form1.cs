@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using Logs_chat_record_extractor.Models;
 
 namespace Logs_chat_record_extractor
@@ -124,10 +125,10 @@ namespace Logs_chat_record_extractor
         {
             for (var i = 0; i < ChatTypeHandler.GetIsShowArrayLength(); i++)
             {
-                if (i == (int) ChatType.Party || i == (int) ChatType.Speak ||
-                    i == (int) ChatType.Yell || i == (int) ChatType.Alliance ||
-                    i == (int) ChatType.Shout || i == (int) ChatType.Motion ||
-                    i == (int) ChatType.Tell)
+                if (i == (int)ChatType.Party || i == (int)ChatType.Speak ||
+                    i == (int)ChatType.Yell || i == (int)ChatType.Alliance ||
+                    i == (int)ChatType.Shout || i == (int)ChatType.Motion ||
+                    i == (int)ChatType.Tell)
                 {
                     ChatTypeHandler.SetIsShowThisChatType(i, true);
                 }
@@ -137,12 +138,13 @@ namespace Logs_chat_record_extractor
         /// <summary>
         /// 校验读取的目标是否为聊天内容
         /// 是则返回聊天信息对象，不是则返回null
+        /// 更新对6.0log支持，同时支持5.0log
         /// </summary>
         /// <param name="line">需要校验的内容</param>
         /// <returns>返回对象</returns>
         private static ChatInfo IsAChatMessage(string line)
         {
-            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode));
+            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode) || line.Contains(chatInfo.ChatCode.ToUpper()));
         }
 
         /// <summary>
