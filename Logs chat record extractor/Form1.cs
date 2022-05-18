@@ -37,6 +37,11 @@ namespace Logs_chat_record_extractor
         private string _mainFormTitle;
 
         /// <summary>
+        /// 时区，用于筛选
+        /// </summary>
+        private static string _timeZone = "+08:00";
+
+        /// <summary>
         /// 构造器
         /// </summary>
         public FormOpen()
@@ -100,8 +105,15 @@ namespace Logs_chat_record_extractor
             )
             {
                 string line;
+
+                // 获取时区
+                line = sr.ReadLine();
+                var tempZoneStr = line.Split('|')[1];
+                _timeZone = tempZoneStr.Substring(tempZoneStr.Length - 6);
+                Console.WriteLine(_timeZone);
+
                 // 读取文件
-                while ((line = sr.ReadLine()) != null)
+                do
                 {
                     var chatInfo = IsAChatMessage(line);
                     if (chatInfo != null)
@@ -109,7 +121,7 @@ namespace Logs_chat_record_extractor
                         // 装载内容
                         _chatList.Add(LoadChat(chatInfo, line));
                     }
-                }
+                } while ((line = sr.ReadLine()) != null);
             }
 
             _mf = new MainForm(_chatList, _mainFormTitle);
@@ -144,7 +156,7 @@ namespace Logs_chat_record_extractor
         /// <returns>返回对象</returns>
         private static ChatInfo IsAChatMessage(string line)
         {
-            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(chatInfo.ChatCode) || line.Contains(chatInfo.ChatCode.ToUpper()));
+            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(_timeZone + chatInfo.ChatCode) || line.Contains(_timeZone + chatInfo.ChatCode.ToUpper()));
         }
 
         /// <summary>
@@ -185,35 +197,35 @@ namespace Logs_chat_record_extractor
         {
             _chatInfoList = new List<ChatInfo>
             {
-                new ChatInfo(ChatType.Speak, Color.FromArgb(178, 178, 178), "+08:00|000a|"),
-                new ChatInfo(ChatType.Yell, Color.FromArgb(178, 178, 0), "+08:00|001e|"),
-                new ChatInfo(ChatType.Shout, Color.FromArgb(178, 116, 71), "+08:00|000b|"),
-                new ChatInfo(ChatType.Party, Color.FromArgb(71, 168, 178), "+08:00|000e|"),
-                new ChatInfo(ChatType.CwLinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0025|"),
-                new ChatInfo(ChatType.CwLinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0065|"),
-                new ChatInfo(ChatType.CwLinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0066|"),
-                new ChatInfo(ChatType.CwLinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0067|"),
-                new ChatInfo(ChatType.CwLinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0068|"),
-                new ChatInfo(ChatType.CwLinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0069|"),
-                new ChatInfo(ChatType.CwLinkShell7, Color.FromArgb(159, 191, 96), "+08:00|006a|"),
-                new ChatInfo(ChatType.CwLinkShell8, Color.FromArgb(159, 191, 96), "+08:00|006b|"),
-                new ChatInfo(ChatType.LinkShell1, Color.FromArgb(159, 191, 96), "+08:00|0010|"),
-                new ChatInfo(ChatType.LinkShell2, Color.FromArgb(159, 191, 96), "+08:00|0011|"),
-                new ChatInfo(ChatType.LinkShell3, Color.FromArgb(159, 191, 96), "+08:00|0012|"),
-                new ChatInfo(ChatType.LinkShell4, Color.FromArgb(159, 191, 96), "+08:00|0013|"),
-                new ChatInfo(ChatType.LinkShell5, Color.FromArgb(159, 191, 96), "+08:00|0014|"),
-                new ChatInfo(ChatType.LinkShell6, Color.FromArgb(159, 191, 96), "+08:00|0015|"),
-                new ChatInfo(ChatType.LinkShell7, Color.FromArgb(159, 191, 96), "+08:00|0016|"),
-                new ChatInfo(ChatType.LinkShell8, Color.FromArgb(159, 191, 96), "+08:00|0017|"),
-                new ChatInfo(ChatType.Beginner, Color.FromArgb(159, 191, 96), "+08:00|001b|"),
-                new ChatInfo(ChatType.Tell, Color.FromArgb(178, 129, 155), "+08:00|000d|"),
-                new ChatInfo(ChatType.TellToOther, Color.FromArgb(178, 129, 155), "+08:00|000c|"),
+                new ChatInfo(ChatType.Speak, Color.FromArgb(178, 178, 178), "|000a|"),
+                new ChatInfo(ChatType.Yell, Color.FromArgb(178, 178, 0), "|001e|"),
+                new ChatInfo(ChatType.Shout, Color.FromArgb(178, 116, 71), "|000b|"),
+                new ChatInfo(ChatType.Party, Color.FromArgb(71, 168, 178), "|000e|"),
+                new ChatInfo(ChatType.CwLinkShell1, Color.FromArgb(159, 191, 96), "|0025|"),
+                new ChatInfo(ChatType.CwLinkShell2, Color.FromArgb(159, 191, 96), "|0065|"),
+                new ChatInfo(ChatType.CwLinkShell3, Color.FromArgb(159, 191, 96), "|0066|"),
+                new ChatInfo(ChatType.CwLinkShell4, Color.FromArgb(159, 191, 96), "|0067|"),
+                new ChatInfo(ChatType.CwLinkShell5, Color.FromArgb(159, 191, 96), "|0068|"),
+                new ChatInfo(ChatType.CwLinkShell6, Color.FromArgb(159, 191, 96), "|0069|"),
+                new ChatInfo(ChatType.CwLinkShell7, Color.FromArgb(159, 191, 96), "|006a|"),
+                new ChatInfo(ChatType.CwLinkShell8, Color.FromArgb(159, 191, 96), "|006b|"),
+                new ChatInfo(ChatType.LinkShell1, Color.FromArgb(159, 191, 96), "|0010|"),
+                new ChatInfo(ChatType.LinkShell2, Color.FromArgb(159, 191, 96), "|0011|"),
+                new ChatInfo(ChatType.LinkShell3, Color.FromArgb(159, 191, 96), "|0012|"),
+                new ChatInfo(ChatType.LinkShell4, Color.FromArgb(159, 191, 96), "|0013|"),
+                new ChatInfo(ChatType.LinkShell5, Color.FromArgb(159, 191, 96), "|0014|"),
+                new ChatInfo(ChatType.LinkShell6, Color.FromArgb(159, 191, 96), "|0015|"),
+                new ChatInfo(ChatType.LinkShell7, Color.FromArgb(159, 191, 96), "|0016|"),
+                new ChatInfo(ChatType.LinkShell8, Color.FromArgb(159, 191, 96), "|0017|"),
+                new ChatInfo(ChatType.Beginner, Color.FromArgb(159, 191, 96), "|001b|"),
+                new ChatInfo(ChatType.Tell, Color.FromArgb(178, 129, 155), "|000d|"),
+                new ChatInfo(ChatType.TellToOther, Color.FromArgb(178, 129, 155), "|000c|"),
                 //官方情感动作
-                new ChatInfo(ChatType.Motion, Color.FromArgb(130, 178, 168), "+08:00|001d|"),
+                new ChatInfo(ChatType.Motion, Color.FromArgb(130, 178, 168), "|001d|"),
                 //自定义的情感动作
-                new ChatInfo(ChatType.MotionCustom, Color.FromArgb(130, 178, 168), "+08:00|001c|"),
-                new ChatInfo(ChatType.FreeCompany, Color.FromArgb(134, 171, 178), "+08:00|0018|"),
-                new ChatInfo(ChatType.Alliance, Color.FromArgb(178, 89, 0), "+08:00|000f|"),
+                new ChatInfo(ChatType.MotionCustom, Color.FromArgb(130, 178, 168), "|001c|"),
+                new ChatInfo(ChatType.FreeCompany, Color.FromArgb(134, 171, 178), "|0018|"),
+                new ChatInfo(ChatType.Alliance, Color.FromArgb(178, 89, 0), "|000f|"),
             };
         }
     }
