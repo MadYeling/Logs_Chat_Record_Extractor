@@ -98,6 +98,7 @@ namespace Logs_chat_record_extractor
             Application.DoEvents();
             // 将原先的list清理掉
             _chatList.Clear();
+            var lineNub = 1;
             using (
                 var sr = new StreamReader(
                     new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)
@@ -115,12 +116,19 @@ namespace Logs_chat_record_extractor
                 // 读取文件
                 do
                 {
+                    if (line.Split('|')[0] == "01")
+                    {
+                        lineNub = 1;
+                    }
+
                     var chatInfo = IsAChatMessage(line);
                     if (chatInfo != null)
                     {
                         // 装载内容
-                        _chatList.Add(LoadChat(chatInfo, line));
+                        _chatList.Add(LoadChat(chatInfo, line, lineNub));
                     }
+
+                    lineNub++;
                 } while ((line = sr.ReadLine()) != null);
             }
 
@@ -156,7 +164,8 @@ namespace Logs_chat_record_extractor
         /// <returns>返回对象</returns>
         private static ChatInfo IsAChatMessage(string line)
         {
-            return _chatInfoList.FirstOrDefault(chatInfo => line.Contains(_timeZone + chatInfo.ChatCode) || line.Contains(_timeZone + chatInfo.ChatCode.ToUpper()));
+            return _chatInfoList.FirstOrDefault(chatInfo =>
+                line.Contains(_timeZone + chatInfo.ChatCode) || line.Contains(_timeZone + chatInfo.ChatCode.ToUpper()));
         }
 
         /// <summary>
@@ -165,8 +174,16 @@ namespace Logs_chat_record_extractor
         /// <param name="chatInfo">聊天信息详情</param>
         /// <param name="line">内容</param>
         /// <returns>装载完成的聊天信息</returns>
-        private static Chat LoadChat(ChatInfo chatInfo, string line)
+        private static Chat LoadChat(ChatInfo chatInfo, string line, int lineNub)
         {
+            var ck = getAndRemoveCheck(line);
+            var mck = TextChecker.Encrypt(ck.lineText, lineNub);
+            if (ck.lineCheck != mck)
+            {
+                MessageBox.Show(
+                    $"警告：存在被篡改文本。\r\n文本内容：{ck.lineText}\r\n软件校验结果：{mck}\r\n文中校验码：{ck.lineCheck}");
+            }
+
             // 替换小队前面的乱码字符
             line = line.Replace("", "①").Replace("", "②")
                 .Replace("", "③").Replace("", "④")
@@ -188,6 +205,21 @@ namespace Logs_chat_record_extractor
                 Context = sp[4]
             };
             return chat;
+        }
+
+        private static Line getAndRemoveCheck(string line)
+        {
+            var l = line.Split('|');
+            var check = l[l.Length - 1];
+            var d = new List<string>();
+            for (var i = 0; i < l.Length - 1; i++)
+            {
+                d.Add(l[i]);
+            }
+
+            var res = string.Join("|", d);
+            Console.WriteLine(res);
+            return new Line(res, check);
         }
 
         /// <summary>

@@ -80,8 +80,10 @@
     <Compile Include="Models\ChatInfo.cs" />
     <Compile Include="Models\ChatType.cs" />
     <Compile Include="Models\ChatTypeHandler.cs" />
+    <Compile Include="Models\Line.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextChecker.cs" />
     <EmbeddedResource Include="FilterForm.resx">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </EmbeddedResource>
