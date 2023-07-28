@@ -1,0 +1,15 @@
+﻿<hc:Window x:Class="Logs_Chat_Record_Extractor_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Logs_Chat_Record_Extractor_WPF"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="820" Width="800">
+    <Grid>
+        <hc:LoadingCircle></hc:LoadingCircle>
+        <RichTextBox x:Name="RichTextBox" VerticalScrollBarVisibility="Visible" IsReadOnly="True"></RichTextBox>
+    </Grid>
+</hc:Window>
