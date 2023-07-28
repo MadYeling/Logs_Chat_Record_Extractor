@@ -39,7 +39,7 @@ namespace Logs_Chat_Record_Extractor_WPF.Utils
             }
         }
 
-        public async Task<IEnumerable<Chat>> LoadFile(string filePath)
+        public async Task<List<Chat>> LoadFile(string filePath)
         {
             _chatList.Clear();
             using (
