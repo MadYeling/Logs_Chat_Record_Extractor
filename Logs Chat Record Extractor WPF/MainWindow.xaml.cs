@@ -72,8 +72,9 @@ namespace Logs_Chat_Record_Extractor_WPF
 
         public async void LoadFile(string filePath)
         {
-            Menu.Visibility = Visibility.Hidden;
             LoadingCircle.Visibility = Visibility.Visible;
+            Menu.Visibility = Visibility.Hidden;
+            RichTextBox.Visibility = Visibility.Hidden;
             // 清空内容
             RichTextBox.Document.Blocks.Clear();
             // 锁定富文本框
@@ -82,8 +83,9 @@ namespace Logs_Chat_Record_Extractor_WPF
             var chatList = await _logReader.LoadFile(filePath);
             _chatList = chatList;
             RefreshRichTextBox(chatList);
-            LoadingCircle.Visibility = Visibility.Hidden;
             Menu.Visibility = Visibility.Visible;
+            RichTextBox.Visibility = Visibility.Visible;
+            LoadingCircle.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
