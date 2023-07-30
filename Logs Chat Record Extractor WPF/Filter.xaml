@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Logs_Chat_Record_Extractor_WPF"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
         Title="过滤器" Height="470" Width="410">
     <Grid>
         <Grid.RowDefinitions>

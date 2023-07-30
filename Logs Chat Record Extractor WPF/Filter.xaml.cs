@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -24,16 +25,12 @@ namespace Logs_Chat_Record_Extractor_WPF
         /// </summary>
         private readonly CheckBox[] _checkBoxArr = new CheckBox[IsShowArrLength];
 
-        public Filter(MainWindow owner)
+        public Filter(List<Chat> chatList, MainWindow owner)
         {
             InitializeComponent();
             _owner = owner;
-            Init();
-        }
-
-        public void PrepareData(List<Chat> chatList)
-        {
             _chatList = chatList;
+            Init();
         }
 
         private void Init()
@@ -44,6 +41,9 @@ namespace Logs_Chat_Record_Extractor_WPF
                 LoadCheckBox(i);
                 _checkBoxArr[i].IsChecked = ChatTypeHandler.IsShowThisChatType(i);
             }
+
+            Closing += OnClosing;
+            Owner = _owner;
 
             NormalAllSelect.Click += (sender, args) => { AllSelect(0, 9); };
             LinkAllSelect.Click += (sender, args) => { AllSelect(9, 17); };
@@ -124,6 +124,17 @@ namespace Logs_Chat_Record_Extractor_WPF
         }
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            CancelOrClosing();
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            CancelOrClosing();
+        }
+
+        private void CancelOrClosing()
         {
             for (var i = 0; i < IsShowArrLength; i++)
             {

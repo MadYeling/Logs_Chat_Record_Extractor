@@ -32,8 +32,6 @@ namespace Logs_Chat_Record_Extractor_WPF
         /// </summary>
         private bool _showHead = false;
 
-        private Filter _filter;
-
         private List<Chat> _chatList;
 
         public MainWindow(Window owner)
@@ -51,7 +49,6 @@ namespace Logs_Chat_Record_Extractor_WPF
             if (backgroundColor != null)
                 RichTextBox.Background = new SolidColorBrush((Color)backgroundColor);
             _logReader = new LogReader();
-            _filter = new Filter(this);
             TimeMenuChecker.IsChecked = _showTime;
             TypeMenuChecker.IsChecked = _showHead;
             RichTextBox.FontFamily = new FontFamily(new Uri("pack://application:,,,/"),
@@ -84,7 +81,6 @@ namespace Logs_Chat_Record_Extractor_WPF
             Title = Path.GetFileName(filePath);
             var chatList = await _logReader.LoadFile(filePath);
             _chatList = chatList;
-            _filter.PrepareData(chatList);
             RefreshRichTextBox(chatList);
             LoadingCircle.NeedHidden = true;
             Menu.Visibility = Visibility.Visible;
@@ -159,7 +155,7 @@ namespace Logs_Chat_Record_Extractor_WPF
 
         private void Filter_OnClick(object sender, RoutedEventArgs e)
         {
-            _filter.Show();
+            new Filter(_chatList, this).Show();
         }
 
         private void Find_OnClick(object sender, RoutedEventArgs e)
@@ -178,7 +174,7 @@ namespace Logs_Chat_Record_Extractor_WPF
 
         private void Find()
         {
-            MessageBox.Show("抱歉，此功能尚未完成");
+            MessageBox.Show("抱歉，此功能尚未实装");
             // var find = new Find(RichTextBox) { Owner = this };
             // find.Show();
         }
