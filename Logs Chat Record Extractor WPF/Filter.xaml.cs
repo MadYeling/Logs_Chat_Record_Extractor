@@ -41,8 +41,7 @@ namespace Logs_Chat_Record_Extractor_WPF
                 LoadCheckBox(i);
                 _checkBoxArr[i].IsChecked = ChatTypeHandler.IsShowThisChatType(i);
             }
-
-            Closing += OnClosing;
+            
             Owner = _owner;
 
             NormalAllSelect.Click += (sender, args) => { AllSelect(0, 9); };
@@ -125,23 +124,7 @@ namespace Logs_Chat_Record_Extractor_WPF
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
-            CancelOrClosing();
-        }
-
-        private void OnClosing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = true;
-            CancelOrClosing();
-        }
-
-        private void CancelOrClosing()
-        {
-            for (var i = 0; i < IsShowArrLength; i++)
-            {
-                _checkBoxArr[i].IsChecked = ChatTypeHandler.IsShowThisChatType(i);
-            }
-
-            Hide();
+            Close();
         }
     }
 }
