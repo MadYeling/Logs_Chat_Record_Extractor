@@ -52,7 +52,7 @@ namespace Logs_Chat_Record_Extractor_WPF
             TimeMenuChecker.IsChecked = _showTime;
             TypeMenuChecker.IsChecked = _showHead;
             RichTextBox.FontFamily = new FontFamily(new Uri("pack://application:,,,/"),
-                "./Fonts/#XIV AXIS Std ATK, ./Fonts/#AXIS Std R, Microsoft Yahei");
+                "./Fonts/#XIV AXIS Std ATK, ./Fonts/#AXIS Std R, ./Fonts/#华康青花黑 Std W5");
             RichTextBox.FontSize = 18;
         }
 
@@ -117,6 +117,7 @@ namespace Logs_Chat_Record_Extractor_WPF
                 paragraph.Inlines.Add(content.ToString());
                 paragraph.Foreground = new SolidColorBrush(chat.ChatInfo.ChatColor);
                 paragraph.LineHeight = 0.1;
+                paragraph.FontWeight = FontWeights.Black;
                 RichTextBox.Document.Blocks.Add(paragraph);
             }
 
