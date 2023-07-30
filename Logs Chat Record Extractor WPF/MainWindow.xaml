@@ -10,20 +10,26 @@
         Title="MainWindow" Height="820" Width="800">
     <Grid>
         <hc:LoadingCircle x:Name="LoadingCircle"></hc:LoadingCircle>
-        <RichTextBox x:Name="RichTextBox" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Margin="0,25,0,0"></RichTextBox>
-        <Menu x:Name="Menu" Margin="0,0,0,758">
-            <MenuItem Header="选项(_O)">
-                <MenuItem Header="显示内容(_C)">
-                    <MenuItem Header="时间(_T)" x:Name="TimeMenuChecker" IsCheckable="True" Checked="Time_OnChecked" Unchecked="Time_OnUnchecked"/>
-                    <MenuItem Header="消息类型(_Y)" x:Name="TypeMenuChecker" IsCheckable="True" Checked="Type_OnChecked" Unchecked="Type_OnUnchecked"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Menu Grid.Row="0"  x:Name="Menu" Margin="0">
+                <MenuItem Header="选项(_O)">
+                    <MenuItem Header="显示内容(_C)">
+                        <MenuItem Header="时间(_T)" x:Name="TimeMenuChecker" IsCheckable="True" Checked="Time_OnChecked" Unchecked="Time_OnUnchecked"/>
+                        <MenuItem Header="消息类型(_Y)" x:Name="TypeMenuChecker" IsCheckable="True" Checked="Type_OnChecked" Unchecked="Type_OnUnchecked"/>
+                    </MenuItem>
+                    <MenuItem Header="消息过滤(_S)" Click="Filter_OnClick"/>
+                    <MenuItem Header="退出(_Q)" Click="Quit_OnClick"/>
                 </MenuItem>
-                <MenuItem Header="消息过滤(_S)" Click="Filter_OnClick"/>
-                <MenuItem Header="退出(_Q)" Click="Quit_OnClick"/>
-            </MenuItem>
-            <MenuItem Header="编辑(_E)">
-                <MenuItem Header="查找(_F)" Click="Find_OnClick" InputGestureText="Ctrl+F">
+                <MenuItem Header="编辑(_E)">
+                    <MenuItem Header="查找(_F)" Click="Find_OnClick" InputGestureText="Ctrl+F">
+                    </MenuItem>
                 </MenuItem>
-            </MenuItem>
-        </Menu>
+            </Menu>
+            <RichTextBox Grid.Row="1" Margin="0" x:Name="RichTextBox" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+        </Grid>
     </Grid>
 </hc:Window>
