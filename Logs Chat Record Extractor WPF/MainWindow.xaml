@@ -1,35 +1,34 @@
 ﻿<hc:Window x:Class="Logs_Chat_Record_Extractor_WPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Logs_Chat_Record_Extractor_WPF"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
-        mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="820" Width="800">
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           xmlns:local="clr-namespace:Logs_Chat_Record_Extractor_WPF"
+           xmlns:hc="https://handyorg.github.io/handycontrol"
+           mc:Ignorable="d"
+           WindowStartupLocation="CenterScreen"
+           Title="MainWindow" Height="820" Width="800">
     <Grid>
         <hc:LoadingCircle x:Name="LoadingCircle"></hc:LoadingCircle>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Menu Grid.Row="0"  x:Name="Menu" Margin="0">
-                <MenuItem Header="选项(_O)">
-                    <MenuItem Header="显示内容(_C)">
-                        <MenuItem Header="时间(_T)" x:Name="TimeMenuChecker" IsCheckable="True" Checked="Time_OnChecked" Unchecked="Time_OnUnchecked"/>
-                        <MenuItem Header="消息类型(_Y)" x:Name="TypeMenuChecker" IsCheckable="True" Checked="Type_OnChecked" Unchecked="Type_OnUnchecked"/>
-                    </MenuItem>
-                    <MenuItem Header="消息过滤(_S)" Click="Filter_OnClick"/>
-                    <MenuItem Header="退出(_Q)" Click="Quit_OnClick"/>
+            <Menu Grid.Row="0" x:Name="Menu" Margin="0">
+                <MenuItem Header="显示内容(_C)">
+                    <MenuItem Header="时间(_T)" x:Name="TimeMenuChecker" IsCheckable="True" Checked="Time_OnChecked"
+                              Unchecked="Time_OnUnchecked" />
+                    <MenuItem Header="消息类型(_Y)" x:Name="TypeMenuChecker" IsCheckable="True" Checked="Type_OnChecked"
+                              Unchecked="Type_OnUnchecked" />
                 </MenuItem>
-                <MenuItem Header="编辑(_E)">
-                    <MenuItem Header="查找(_F)" Click="Find_OnClick" InputGestureText="Ctrl+F">
-                    </MenuItem>
-                </MenuItem>
+                <MenuItem Header="消息过滤(_S)" Click="Filter_OnClick" />
+                <MenuItem Header="退出(_Q)" Click="Quit_OnClick" />
+                <hc:SearchBar x:Name="SearchBar" SearchStarted="FindNext_OnClick" Width="300"/>
             </Menu>
-            <RichTextBox Grid.Row="1" Margin="0" x:Name="RichTextBox" VerticalScrollBarVisibility="Visible" IsReadOnly="True"/>
+            <RichTextBox Grid.Row="2" Margin="0" x:Name="RichTextBox" VerticalScrollBarVisibility="Visible"
+                         IsReadOnly="True" />
         </Grid>
     </Grid>
 </hc:Window>

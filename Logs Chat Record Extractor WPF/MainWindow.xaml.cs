@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using Logs_Chat_Record_Extractor_WPF.Models;
 using Logs_Chat_Record_Extractor_WPF.Utils;
@@ -34,6 +33,8 @@ namespace Logs_Chat_Record_Extractor_WPF
 
         private List<Chat> _chatList;
 
+        private static TextPointer _nextPosition;
+
         public MainWindow(Window owner)
         {
             InitializeComponent();
@@ -44,7 +45,6 @@ namespace Logs_Chat_Record_Extractor_WPF
         private void Init()
         {
             Closing += Window_Closing;
-            KeyDown += OnKeyDown;
             var backgroundColor = ColorConverter.ConvertFromString("#555");
             if (backgroundColor != null)
                 RichTextBox.Background = new SolidColorBrush((Color)backgroundColor);
@@ -86,6 +86,7 @@ namespace Logs_Chat_Record_Extractor_WPF
             Menu.Visibility = Visibility.Visible;
             RichTextBox.Visibility = Visibility.Visible;
             LoadingCircle.Visibility = Visibility.Hidden;
+            _nextPosition = RichTextBox.Document.ContentStart;
         }
 
         /// <summary>
@@ -161,25 +162,24 @@ namespace Logs_Chat_Record_Extractor_WPF
             new Filter(_chatList, this).Show();
         }
 
-        private void Find_OnClick(object sender, RoutedEventArgs e)
+        private void FindNext_OnClick(object sender, RoutedEventArgs e)
         {
-            Find();
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            // Ctrl+F
-            if (e.Key == Key.F && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            var word = SearchBar.Text;
+            if (SearchBar.Text == "")
             {
-                Find();
+                return;
             }
-        }
+            var start = FindWord.FindWordPosition(_nextPosition, word);
+            if (start == null)
+            {
+                _nextPosition = RichTextBox.Document.ContentStart;
+                start = FindWord.FindWordPosition(_nextPosition, word);
+            }
 
-        private void Find()
-        {
-            MessageBox.Show("抱歉，此功能尚未实装");
-            // var find = new Find(RichTextBox) { Owner = this };
-            // find.Show();
+            var end = start.GetPositionAtOffset(word.Length);
+            _nextPosition = end;
+            RichTextBox.Selection.Select(start, end);
+            RichTextBox.Focus();
         }
     }
 }
