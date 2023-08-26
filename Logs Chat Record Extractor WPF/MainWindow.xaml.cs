@@ -82,6 +82,8 @@ namespace Logs_Chat_Record_Extractor_WPF
             Title = Path.GetFileName(filePath);
             var chatList = await _logReader.LoadFile(filePath);
             _chatList = chatList;
+            if (_chatList.Count == 0)
+                MessageBox.Show("读取的LOGS中无任何聊天内容！", "注意", MessageBoxButton.OK, MessageBoxImage.Information);
             RefreshRichTextBox(chatList);
             Menu.Visibility = Visibility.Visible;
             RichTextBox.Visibility = Visibility.Visible;

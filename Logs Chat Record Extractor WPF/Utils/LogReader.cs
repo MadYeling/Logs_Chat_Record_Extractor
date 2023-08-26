@@ -49,7 +49,7 @@ namespace Logs_Chat_Record_Extractor_WPF.Utils
             )
             {
                 var line = await sr.ReadLineAsync();
-                if (line != null)
+                if (line != null && line.Trim() != "")
                 {
                     var tempZoneStr = line.Split('|')[1];
                     _timeZone = tempZoneStr.Substring(tempZoneStr.Length - 6);
